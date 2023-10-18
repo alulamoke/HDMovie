@@ -1,8 +1,3 @@
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import StickyBox from 'react-sticky-box';
-import styled from 'styled-components';
-
 // Redux
 import { useSelector } from 'react-redux';
 
@@ -10,71 +5,36 @@ import { useSelector } from 'react-redux';
 import Logo from '../components/Logo';
 import MenuItem from '../components/MenuItem';
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 25rem;
-  padding: 2rem;
-  margin-top: 4rem;
-  color: var(--color-primary-dark);
-  border-right: 1px solid var(--border-color);
-`;
-
-const Heading = styled.h2`
-  font-weight: 700;
-  font-size: 1.1rem;
-  text-transform: uppercase;
-  letter-spacing: -0.5px;
-  margin: 0 0 1rem 1rem;
-  &:not(:first-child) {
-    margin-top: 4rem;
-  }
-`;
-
 const Sidebar = () => {
   const { staticCategories, genres } = useSelector((state) => state.config);
 
   return (
-    <StickyBox>
-      <Wrapper>
-        <Logo />
-        <Heading>Discover</Heading>
-        {renderStatic()}
-        <Heading>Genres</Heading>
-        {renderGenres()}
-      </Wrapper>
-    </StickyBox>
+    <div className="fixed top-0 left-0 gap-8 hidden md:flex flex-col p-4 xl:p-8 mt-16 border-r">
+      <Logo />
+      <header className="text-xl tracking-tighter uppercase font-bold">
+        Discover
+      </header>
+      <div className="flex flex-col gap-4">{renderStatic()}</div>
+      <header className="text-xl tracking-tighter uppercase font-bold">
+        Genres
+      </header>
+      <div className="flex flex-col gap-4">{renderGenres()}</div>
+    </div>
   );
 
   function renderStatic() {
     return staticCategories.map((category, i) => (
-      <NavLink
-        className={({ isActive }) =>
-          isActive
-            ? 'flex items-center py-4 px-8 text-xl font-bold opacity-100 border border-gray-700 rounded-[3rem] mb-3 last:mb-0'
-            : 'flex items-center py-4 px-8 text-xl font-bold opacity-60 hover:border hover:border-gray-700 rounded-[3rem] mb-3 last:mb-0'
-        }
-        key={i}
-        to={`/discover/${category}`}
-      >
-        <MenuItem title={category} />
-      </NavLink>
+      <MenuItem key={i} title={category} url={`/discover/${category}`} />
     ));
   }
 
   function renderGenres() {
     return genres.map((genre) => (
-      <NavLink
-        className={({ isActive }) =>
-          isActive
-            ? 'w-full flex items-center py-4 px-8 text-xl font-bold opacity-100 border border-gray-700 rounded-[3rem] mb-3 last:mb-0'
-            : 'flex items-center py-4 px-8 text-xl font-bold opacity-60 hover:border hover:border-gray-700 rounded-[3rem] mb-3 last:mb-0'
-        }
+      <MenuItem
         key={genre._id}
-        to={`/genre/${genre.name}`}
-      >
-        <MenuItem title={genre.name} />
-      </NavLink>
+        title={genre.name}
+        url={`/genre/${genre.name}`}
+      />
     ));
   }
 };

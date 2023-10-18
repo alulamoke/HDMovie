@@ -3,18 +3,18 @@ import { Helmet } from 'react-helmet';
 import { toast } from 'react-hot-toast';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import { MdLogin } from 'react-icons/md';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { useMutation } from '@tanstack/react-query';
 import { useFormik } from 'formik';
 import { signupSchema } from '../schemas';
 import usersService from '../services/user.service';
-import localStore from '../utils/localStore';
 
 // Components
 import Button from '../components/Button';
 import Marginer from '../components/Marginer';
+import { currencyFormatter } from '../utils/currencyFormatter';
 
 const MainWrapper = styled.div`
   display: flex;
@@ -59,14 +59,37 @@ const ErrorText = styled.p`
 
 const SignUp = () => {
   const navigate = useNavigate();
-  const location = useLocation();
+  const [searchParams, _] = useSearchParams();
+  const PlanName = searchParams.get('name') ?? 'Free Trail';
+  const PlanPrice = searchParams.get('price') ?? '0.0';
 
-  const { isLoading, mutate } = useMutation({
+  const paymentMutation = useMutation({
+    mutationKey: ['payment'],
+    mutationFn: usersService.pay,
+    onSuccess: (data) => {
+      window.location.href = data.data.checkout_url;
+    },
+    onError: (err) => {
+      toast.error(err.message);
+    },
+  });
+
+  const signupMutation = useMutation({
     mutationKey: ['login'],
     mutationFn: usersService.signup,
-    onSuccess: () => {
-      toast.success('Account created successfully');
-      navigate('/login');
+    onSuccess: (data) => {
+      toast.success('Account created successfully, Pay your subscription now.');
+      const body = {
+        userId: data._id,
+        name: data.fullname,
+        email: data.email,
+        phone: data.phone,
+        amount: PlanPrice,
+        return_url: `http://localhost:3500/payment-success`,
+      };
+      if (data.plan !== 'Free Trail') {
+        paymentMutation.mutate(body);
+      }
     },
     onError: (err) => {
       toast.error(err.message);
@@ -80,10 +103,10 @@ const SignUp = () => {
       phone: '',
       username: '',
       password: '',
-      plan: location.state?.plan && location.state.plan,
+      plan: PlanName,
     },
     validationSchema: signupSchema,
-    onSubmit: (values) => mutate(values),
+    onSubmit: (values) => signupMutation.mutate(values),
   });
 
   return (
@@ -92,13 +115,15 @@ const SignUp = () => {
         <title>{`SignUp - HDMovie`}</title>
       </Helmet>
       <Marginer direction="vertical" margin="5rem" />
-
       <Button
         title="Back to choose a plan"
         icon={AiOutlineArrowLeft}
         left
-        onClick={() => history.goBack()}
+        onClick={() => navigate('/pricing-plan')}
       />
+      <Marginer direction="vertical" margin="2rem" />
+      <h1 className="text-4xl font-semibold">Plan: {PlanName}</h1>
+      <p className="text-2xl font-medium">{currencyFormatter(PlanPrice)}</p>
       <Marginer direction="vertical" margin="5rem" />
       <FormWrapper noValidate onSubmit={formAction.handleSubmit}>
         <label htmlFor="fullname">* Full Name</label>
@@ -141,7 +166,7 @@ const SignUp = () => {
         <input
           id="phone"
           name="phone"
-          type="number"
+          type="text"
           value={formAction.values.phone}
           onChange={formAction.handleChange}
           onBlur={formAction.handleBlur}
@@ -168,7 +193,7 @@ const SignUp = () => {
           left
           solid
           style={{ boxShadow: 'none' }}
-          disabled={isLoading}
+          disabled={signupMutation.isLoading}
         />
       </FormWrapper>
     </MainWrapper>

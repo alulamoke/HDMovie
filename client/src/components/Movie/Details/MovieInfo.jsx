@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import {
   AiOutlineClose,
@@ -200,6 +200,7 @@ const VideoTitle = styled.div`
 `;
 
 const MovieInfo = ({ base_url, movie }) => {
+  const navigate = useNavigate();
   const [modalOpen, setmodalOpen] = useState({
     type: null,
   });
@@ -302,9 +303,10 @@ const MovieInfo = ({ base_url, movie }) => {
     );
   }
 
+  // Render back button
   function renderBack() {
     return (
-      <div onClick={history.goBack}>
+      <div onClick={() => navigate(-1)}>
         <Button title="Back" solid left Icon={AiOutlineArrowLeft} />
       </div>
     );

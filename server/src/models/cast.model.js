@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const castSchema = new mongoose.Schema({
   fullname: { type: String, required: true },
-  imageurl: { type: String, default: '/uploads/cast/no-img.png' },
+  imageurl: { type: String, default: '/uploads/no-img.png' },
   birthday: { type: Date, required: true },
   deathday: { type: Date },
   biography: { type: String, required: true },

@@ -3,7 +3,7 @@ import queryString from 'query-string';
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { AiOutlineArrowLeft, AiOutlineLink } from 'react-icons/ai';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Element, animateScroll as scroll } from 'react-scroll';
 import styled from 'styled-components';
 
@@ -211,6 +211,7 @@ const Cast = () => {
 
   const { base_url } = useSelector((state) => state.config);
 
+  const navigate = useNavigate();
   const { id } = useParams();
   const location = useLocation();
   const params = queryString.parse(location.search);
@@ -299,6 +300,15 @@ const Cast = () => {
       )}
     </Wrapper>
   );
+
+  // Render back button
+  function renderBack() {
+    return (
+      <div onClick={() => navigate(-1)}>
+        <Button title="Back" solid left Icon={AiOutlineArrowLeft} />
+      </div>
+    );
+  }
 };
 
 function renderDate(birthday, deathday) {
@@ -311,15 +321,6 @@ function renderDate(birthday, deathday) {
   } else {
     return dayjs(birthday).format('MMM-DD-YYYY');
   }
-}
-
-// Render back button
-function renderBack() {
-  return (
-    <div onClick={history.goBack}>
-      <Button title="Back" solid left Icon={AiOutlineArrowLeft} />
-    </div>
-  );
 }
 
 // Render website of person

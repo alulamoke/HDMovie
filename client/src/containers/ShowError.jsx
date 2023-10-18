@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { AiOutlineHome } from 'react-icons/ai';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useNavigate } from 'react-router-dom';
 import { animateScroll as scroll } from 'react-scroll';
 import styled from 'styled-components';
 
@@ -48,7 +48,8 @@ const Svg = styled.img`
 `;
 
 const ShowError = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
+
   useEffect(() => {
     scroll.scrollToTop({
       smooth: true,
@@ -70,7 +71,7 @@ const ShowError = () => {
         Icon={AiOutlineHome}
         left
         solid
-        onClick={() => history.goBack()}
+        onClick={() => navigate(-1)}
       />
     </Wrapper>
   );

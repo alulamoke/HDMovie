@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import Button from '../components/Button';
 
 import Marginer from '../components/Marginer';
+import { currencyFormatter } from '../utils/currencyFormatter';
 
 const MainWrapper = styled.div`
   display: flex;
@@ -133,13 +134,13 @@ const PricingPlan = () => {
           onClick={() =>
             setPriceType({
               name: 'Free Trail',
-              price: 0.0,
+              price: '0.0',
             })
           }
         >
           <h1>Free Trail</h1>
           <center>
-            <span>$0.00</span>
+            <span>{currencyFormatter(0)}</span>
           </center>
           <p>- 20 Movies & Shows</p>
           <p>- Watch on any Device</p>
@@ -151,13 +152,13 @@ const PricingPlan = () => {
           onClick={() =>
             setPriceType({
               name: 'Starter',
-              price: 10.0,
+              price: '555.0',
             })
           }
         >
           <h1>Starter</h1>
           <center>
-            <span>$10.00</span>
+            <span>{currencyFormatter(555)}</span>
             <small>/month</small>
           </center>
           <p>- 70 Movies & Shows</p>
@@ -170,13 +171,13 @@ const PricingPlan = () => {
           onClick={() =>
             setPriceType({
               name: 'Premium',
-              price: 14.0,
+              price: '777.0',
             })
           }
         >
           <h1>Premium</h1>
           <center>
-            <span>$14.00</span>
+            <span>{currencyFormatter(777)}</span>
             <small>/month</small>
           </center>
           <p>- Unlimited Movies & Shows</p>
@@ -190,12 +191,12 @@ const PricingPlan = () => {
         <>
           <PriceInfo>
             Your currently selected plan: <span>{priceType.name}</span>, Plan
-            Amount: <span>${priceType.price}</span>, Coupon Discount Amount:{' '}
-            <span>0.00 USD</span>, final Payable Amount:{' '}
-            <span>${priceType.price}</span>
+            Amount: <span>{currencyFormatter(priceType.price)}</span>, Coupon
+            Discount Amount: <span>{currencyFormatter('0.0')}</span>, final
+            Payable Amount: <span>{currencyFormatter(priceType.price)}</span>
           </PriceInfo>
           <Marginer margin="2rem" />
-          <Link to={{ pathname: '/signup', state: { plan: priceType.name } }}>
+          <Link to={`/signup?name=${priceType.name}&price=${priceType.price}`}>
             <Button title="Next Step" Icon={AiOutlineArrowRight} left solid />
           </Link>
         </>

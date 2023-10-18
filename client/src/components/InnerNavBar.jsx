@@ -6,15 +6,8 @@ import { FaUserCircle } from 'react-icons/fa';
 import SearchBar from './SearchBar';
 
 const NavBarWrapper = styled.div`
-  position: absolute;
   display: flex;
   align-items: center;
-  top: 1%;
-  right: 2%;
-
-  @media ${(props) => props.theme.mediaQueries.large} {
-    padding: 1rem;
-  }
 `;
 
 const LinkWrapper = styled(Link)`
@@ -29,7 +22,7 @@ const InnerNavBar = () => (
   <NavBarWrapper>
     <SearchBar />
     <LinkWrapper to="/user">
-      <FaUserCircle size={40} />
+      <FaUserCircle size={30} />
     </LinkWrapper>
   </NavBarWrapper>
 );

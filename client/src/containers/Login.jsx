@@ -1,4 +1,3 @@
-import React from 'react';
 import { Helmet } from 'react-helmet';
 import { MdLogin } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';

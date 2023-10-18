@@ -24,6 +24,7 @@ import { toast } from 'react-hot-toast';
 // Container
 const Home = lazy(() => import('./containers/Home'));
 const PricingPlan = lazy(() => import('./containers/PricingPlan'));
+const PaymentSuccess = lazy(() => import('./containers/PaymentSuccess'));
 const Login = lazy(() => import('./containers/Login'));
 const Signup = lazy(() => import('./containers/Signup'));
 const Discover = lazy(() => import('./containers/Discover'));
@@ -95,6 +96,10 @@ const App = () => {
 
             {/* AUTH ROUTES */}
             <Route element={<AuthRoute />}>
+              <Route
+                path="payment-success/:TX_Ref"
+                element={<PaymentSuccess />}
+              />
               <Route path="discover/:name" element={<Discover />} />
               <Route path="genre/:name" element={<Genre />} />
               <Route path="search/:query" element={<Search />} />

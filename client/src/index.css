@@ -2,8 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
-  .active {
-    @apply opacity-100 border;
-  }
+/* react birger menu */
+.bm-burger-button {
+  @apply hidden;
+}
+
+.bm-cross-button {
+  @apply mr-4 h-6 w-6;
+}
+
+.bm-cross {
+  @apply bg-primary;
+}
+
+.bm-menu-wrap {
+  @apply fixed left-0 top-0 h-full;
+}
+
+.bm-menu {
+  @apply overflow-y-auto bg-white;
+}
+
+.bm-item-list {
+  @apply p-[0.8rem] text-primary;
+}
+
+.bm-item {
+  @apply outline-none;
+}
+
+.bm-overlay {
+  @apply left-0 top-0 bg-black/70;
 }

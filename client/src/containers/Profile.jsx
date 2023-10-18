@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { AiOutlineArrowLeft } from 'react-icons/ai';
 import { FcEditImage } from 'react-icons/fc';
 import { MdLogout } from 'react-icons/md';
-import { useNavigate } from 'react-router-dom';
+import { TbArrowsExchange2 } from 'react-icons/tb';
 import { animateScroll as scroll } from 'react-scroll';
 import styled from 'styled-components';
+import dayjs from 'dayjs';
 
 // Redux
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -178,8 +178,6 @@ const Profile = () => {
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
 
-  const navigate = useNavigate();
-
   const { base_url } = useSelector((state) => state.config);
   const { currentUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -244,14 +242,34 @@ const Profile = () => {
             }}
           />
         </ImageWrapper>
-        <ProfileDetails>
-          <HeaderWrapper>
+        <ProfileDetails className="space-y-12">
+          <div>
             <Header
               size="2"
               title={currentUser.fullname}
               subtitle={currentUser.username}
             />
-          </HeaderWrapper>
+            <p className="text-2xl">Email Address: {currentUser.email}</p>
+          </div>
+          <hr />
+          <header className="text-4xl font-semibold">Subscription</header>
+          <div className="flex items-center justify-between gap-4">
+            <div className="space-y-2">
+              <h1 className="text-3xl font-medium">{currentUser.plan}</h1>
+              <p className="text-2xl font-medium text-green-600">
+                {currentUser.paymentStatus.status}
+              </p>
+              <p className="text-xl font-semibold text-gray-400">
+                Daysleft:{' '}
+                {dayjs(currentUser.paymentStatus.duration).diff(
+                  Date.now(),
+                  'days'
+                )}
+              </p>
+            </div>
+            <Button title="Change Plan" Icon={TbArrowsExchange2} left solid />
+          </div>
+          <hr />
           <ButtonsWrapper>
             <LeftButtons>
               <input
@@ -274,21 +292,11 @@ const Profile = () => {
                 onClick={() => mutateLogout()}
               />
             </LeftButtons>
-            {renderBack()}
           </ButtonsWrapper>
         </ProfileDetails>
       </ProfileWrapper>
     </Wrapper>
   );
 };
-
-// Render back button
-function renderBack() {
-  return (
-    <div onClick={history.goBack}>
-      <Button title="Back" solid left Icon={AiOutlineArrowLeft} />
-    </div>
-  );
-}
 
 export default Profile;

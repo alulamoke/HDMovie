@@ -91,6 +91,10 @@ typings/
 # End of https://www.gitignore.io/api/node
 
 
-avatars/
-images/
-uploads/
+
+uploads/casts
+uploads/images
+uploads/movies
+uploads/series
+uploads/trailers
+uploads/users

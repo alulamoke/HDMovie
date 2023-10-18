@@ -1,23 +1,24 @@
-import path from 'path';
-import fs from 'fs';
-import axios from 'axios';
+const path = require('path');
+const fs = require('fs');
+const axios = require('axios');
 
 const User = require('../../models/user.model');
 const { upload } = require('../../middlewares/multer');
 
 module.exports = {
   pay: async (req, res, next) => {
+    const TX_Ref = Date.now().toString();
     const data = {
       currency: 'ETB',
-      amount: req.body.amount,
-      email: req.body.email,
       first_name: req.body.name,
+      email: req.body.email,
+      amount: req.body.amount,
+      phone_number: req.body.phone,
       last_name: '',
-      tx_ref: Date.now().toString(),
-      callback_url: `${process.env.PAYMENT_CALLBACK_URL}/${TEXT_REF}`,
-      return_url: req.body.RETURN_URL,
+      tx_ref: TX_Ref,
+      callback_url: `${process.env.PAYMENT_CALLBACK_URL}/${req.body.userId}/${TX_Ref}`,
+      return_url: `${req.body.return_url}/${TX_Ref}`,
     };
-
     try {
       const response = await axios.post(
         `${process.env.CHAPPA_URL}/v1/transaction/initialize`,
@@ -26,15 +27,23 @@ module.exports = {
       );
       return res.send(response.data);
     } catch (error) {
+      console.log(error);
       next(error);
     }
   },
   verifyPayment: async (req, res, next) => {
     try {
       const response = await axios.get(
-        `${process.env.CHAPPA_URL}/v1/transaction/verify/${req.params.id}`,
+        `${process.env.CHAPPA_URL}/v1/transaction/verify/${req.params.TX_Ref}`,
         { headers: { Authorization: `Bearer ${process.env.CHAPPA_KEY}` } }
       );
+      await User.findByIdAndUpdate(req.params.userId, {
+        paymentStatus: {
+          amount: response.data.data.amount,
+          status: 'PAID',
+          duration: new Date().setDate(new Date().getDate() + 30),
+        },
+      });
       return res.send(response.data);
     } catch (error) {
       next(error);
@@ -47,7 +56,7 @@ module.exports = {
         return res.status(400).send({ message: 'username already taken.' });
       const newUser = new User(req.body);
       await newUser.save();
-      return res.status(201).send({ message: 'Register success, login now.' });
+      return res.status(201).send(newUser);
     } catch (error) {
       next(error);
     }

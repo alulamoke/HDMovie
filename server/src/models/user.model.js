@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema(
     fullname: { type: String, required: true },
     username: { type: String, unique: true, required: true },
     email: { type: String, lowercase: true, unique: true, required: true },
-    imageurl: { type: String, default: '/uploads/users/no-img.png' },
+    imageurl: { type: String, default: '/uploads/no-img.png' },
     phone: { type: String, required: true },
     password: { type: String, required: true },
     plan: {
@@ -17,8 +17,18 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
     paymentStatus: {
-      status: { type: String, enum: ['Paid', 'Not-paid'], required: true },
-      duration: { type: Date, default: new Date(), required: true },
+      amount: { type: String, default: '0.0', required: true },
+      status: {
+        type: String,
+        enum: ['PAID', 'NOT-PAID'],
+        default: 'NOT-PAID',
+        required: true,
+      },
+      duration: {
+        type: Date,
+        default: new Date().setDate(new Date().getDate() + 30),
+        required: true,
+      },
     },
     status: {
       type: String,

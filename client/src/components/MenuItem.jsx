@@ -1,5 +1,4 @@
-import React from 'react';
-import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
 import {
   AiOutlineStar,
   AiOutlineCalendar,
@@ -8,6 +7,7 @@ import {
 } from 'react-icons/ai';
 import { CgPoll } from 'react-icons/cg';
 import { BsRecordCircle } from 'react-icons/bs';
+import { cn } from '../lib';
 
 function renderIcon(title) {
   switch (title) {
@@ -26,12 +26,20 @@ function renderIcon(title) {
   }
 }
 
-const MenuItem = ({ title }) => {
+const MenuItem = ({ title, url }) => {
   return (
-    <>
-      <div style={{ marginRight: '10px' }}>{renderIcon(title)}</div>
-      {title}
-    </>
+    <NavLink
+      className={({ isActive }) =>
+        cn(
+          'flex items-center gap-4 py-4 px-8 text-xl font-bold opacity-100 rounded-full border-gray-700',
+          isActive ? 'border ' : 'hover:border'
+        )
+      }
+      to={url}
+    >
+      {renderIcon(title)}
+      <p>{title}</p>
+    </NavLink>
   );
 };
 

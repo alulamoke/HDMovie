@@ -1,4 +1,4 @@
-import express from 'express';
+const express = require('express');
 const router = new express.Router();
 
 const auth = require('../../middlewares/auth');
@@ -8,7 +8,7 @@ const userController = require('./user.controller');
 const { upload } = require('../../middlewares/multer');
 
 router.post('/pay', userController.pay);
-router.get('/payment/verify:id', userController.verifyPayment);
+router.get('/payment/verify/:userId/:TX_Ref', userController.verifyPayment);
 router.post('/signup', joimiddleware(user_rule.signup), userController.signup);
 router.post('/login', joimiddleware(user_rule.login), userController.login);
 router.get('/me', auth(), userController.getLoggedInUserInfo);

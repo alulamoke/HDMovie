@@ -6,7 +6,7 @@ var adminSchema = new mongoose.Schema(
   {
     fullname: { type: String, required: true },
     email: { type: String, lowercase: true, unique: true, required: true },
-    imageurl: { type: String, default: '/uploads/users/no-img.png' },
+    imageurl: { type: String, default: '/uploads/no-img.png' },
     password: { type: String, required: true },
     tokens: [
       {

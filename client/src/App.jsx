@@ -85,6 +85,12 @@ const App = () => {
     <Suspense fallback={<Loader />}>
       <MainWrapper>
         <Routes>
+          <Route
+            path="*"
+            element={
+              <NotFound title="Upps!" subtitle={`This doesn't exist...`} />
+            }
+          />
           <Route path="/" element={<Layout />}>
             {/* PUBLIC ROUTES */}
             <Route element={<PublicRoute />}>
@@ -108,12 +114,6 @@ const App = () => {
               <Route path="user" element={<Profile />} />
             </Route>
           </Route>
-          <Route
-            path="*"
-            element={() => (
-              <NotFound title="Upps!" subtitle={`This doesn't exist...`} />
-            )}
-          />
         </Routes>
       </MainWrapper>
     </Suspense>

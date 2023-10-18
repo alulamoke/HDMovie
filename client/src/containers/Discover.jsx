@@ -102,7 +102,7 @@ const Discover = () => {
       </Helmet>
       <div>
         <Header title={name} subtitle="movies" />
-        {/* {renderClearButton()} */}
+        {renderClearButton()}
       </div>
       <MoviesList base_url={base_url} movies={movies} />
     </Wrapper>

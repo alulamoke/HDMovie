@@ -31,8 +31,10 @@ const MenuItem = ({ title, url }) => {
     <NavLink
       className={({ isActive }) =>
         cn(
-          'flex items-center gap-4 py-4 px-8 text-xl font-bold opacity-100 rounded-full border-gray-700',
-          isActive ? 'border ' : 'hover:border'
+          'flex items-center gap-4 py-4 px-8 text-xl  opacity-100 rounded-full border-gray-700',
+          isActive
+            ? 'border text-black font-bold'
+            : 'hover:border text-secondary font-semibold'
         )
       }
       to={url}

@@ -1,0 +1,13 @@
+export const HOME = '/';
+export const LOGIN = '/login';
+export const SIGNUP = '/signup';
+export const DASHBOARD = '/dashboard';
+export const GET_CASTS = '/casts';
+export const GET_GENRES = '/genres';
+export const CREATE_MOVIE = '/create-movie';
+export const GET_MOVIES = '/movies';
+export const SEARCH_MOVIES = '/search/:query';
+export const GET_USERS = '/users';
+export const ACCOUNT = '/account';
+export const NOT_FOUND = '/404';
+export const ERROR = '/error';

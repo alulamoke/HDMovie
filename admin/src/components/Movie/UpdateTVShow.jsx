@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { AiOutlinePlus } from 'react-icons/ai';
+import { IoCreateOutline } from 'react-icons/io5';
 
 // hooks
 import useTVShowFileUpload from '../../hooks/useTVShowFileUpload';
-import useMovieInfo from '../../hooks/useMovieInfo';
+import { useMovieInfo } from '../../hooks/useMovie';
 
 // Components
 import Button from '../Button';
@@ -63,7 +65,12 @@ const UpdateTVShow = ({ id }) => {
 
   return (
     <>
-      <Button title="Edit TVShow" icon="edit" left onClick={handleOpen} />
+      <Button
+        title="Edit TVShow"
+        Icon={IoCreateOutline}
+        left
+        onClick={handleOpen}
+      />
       <Modal
         open={modalOpen}
         size="md"
@@ -74,7 +81,7 @@ const UpdateTVShow = ({ id }) => {
           <div style={{ float: 'left' }}>
             <Button
               title="Add New Season"
-              icon="plus"
+              Icon={AiOutlinePlus}
               left
               solid
               onClick={() => onNewSeasonAdd()}
@@ -110,7 +117,7 @@ const UpdateTVShow = ({ id }) => {
           {seasons.length > 0 && (
             <Button
               title="Edit TVShow"
-              icon="edit"
+              Icon={IoCreateOutline}
               left
               solid
               onClick={handleSubmit}

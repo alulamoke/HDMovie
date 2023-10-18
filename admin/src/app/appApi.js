@@ -1,9 +1,9 @@
 import axios from 'axios';
 import localStore from '../utils/localStore';
 
-const apiV1 = () => {
+export const appApi = () => {
   // authenticate user if jwt token is in localstore
-  if (localStore.getToken()) {
+  if (localStore.isUserAuthenticated()) {
     return axios.create({
       baseURL: `http://localhost:5555/api/v1`,
       headers: {
@@ -16,5 +16,3 @@ const apiV1 = () => {
     baseURL: `http://localhost:5555/api/v1`,
   });
 };
-
-export { apiV1 };

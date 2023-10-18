@@ -3,11 +3,14 @@ import ReactGA from 'react-ga';
 import { Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { useQueries } from '@tanstack/react-query';
+// Redux
 import { useDispatch } from 'react-redux';
 import { setCredentails } from './app/authSlice';
 import { setConfiguration, setGenres } from './app/configSlice';
-import useNetwork from './hooks/useNetwork';
+
+// React query
+import { useQueries } from '@tanstack/react-query';
+
 import configService from './services/config.service';
 import usersService from './services/user.service';
 
@@ -19,7 +22,6 @@ import PublicRoute from './layout/PublicRoute';
 // Components
 import Loader from './components/Loader';
 import NotFound from './components/NotFound';
-import { toast } from 'react-hot-toast';
 
 // Container
 const Home = lazy(() => import('./containers/Home'));
@@ -46,7 +48,6 @@ ReactGA.pageview(window.location.pathname + window.location.search);
 
 const App = () => {
   const dispatch = useDispatch();
-  const { isOnline } = useNetwork();
 
   useQueries({
     queries: [
@@ -73,13 +74,6 @@ const App = () => {
       },
     ],
   });
-
-  if (!isOnline) {
-    toast.error('No internet connection available.', {
-      icon: '☁',
-      position: 'bottom-center',
-    });
-  }
 
   return (
     <Suspense fallback={<Loader />}>

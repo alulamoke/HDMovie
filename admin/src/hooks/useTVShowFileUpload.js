@@ -1,17 +1,13 @@
 import { useState } from 'react';
-import { apiV1 } from '../api';
-
-// Redux
-import { useDispatch } from 'react-redux';
-import { setAlert } from '../redux/actions/alert.action';
+import { toast } from 'react-hot-toast';
+import { appApi } from '../app/appApi';
 
 const useTVShowFileUpload = () => {
-  const dispatch = useDispatch();
   const [progress, setProgress] = useState(0);
 
   async function upload(id, body) {
     try {
-      const res = await apiV1().put(`/movie/updateSeriesMovie/${id}`, body, {
+      const res = await appApi().put(`/movie/updateSeriesMovie/${id}`, body, {
         onUploadProgress: (progressEvent) =>
           setProgress(
             parseInt(
@@ -19,10 +15,10 @@ const useTVShowFileUpload = () => {
             )
           ),
       });
-      dispatch(setAlert(`${res.data.title} Series updated.`, 'success'));
+      toast.success(`${res.data.title} Series updated.`);
       setProgress(0);
     } catch (err) {
-      dispatch(setAlert(err.response.data.message, 'error'));
+      toast.error(err.response.data.message);
     }
   }
 

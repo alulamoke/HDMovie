@@ -1,79 +1,50 @@
-import React from 'react';
-import styled from 'styled-components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-const StyledItem = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  padding: 1rem 2rem;
-  font-size: 1.2rem;
-  font-weight: 600;
-  line-height: 1;
-  opacity: ${(props) => (props.selected ? '1' : '.6')};
-  color: ${(props) => {
-    if (props.mobile) {
-      if (props.selected) {
-        return 'var(--text-color)';
-      }
-      return 'rgba(255, 255, 255, .7)';
-    } else {
-      if (props.selected) {
-        return 'var(--color-primary-dark)';
-      }
-      return 'var(--color-primary-light)';
-    }
-  }};
-  border-color: ${(props) =>
-    props.selected
-      ? 'var(--color-primary-dark)'
-      : 'var(--color-primary-light)'};
-  border: ${(props) =>
-    props.selected ? '1px solid' : '1px solid transparent'};
-  border-radius: 2rem;
-  text-decoration: none;
-  text-transform: capitalize;
-  cursor: pointer;
-  transition: all 100ms cubic-bezier(0.075, 0.82, 0.165, 1);
-
-  &:not(:last-child) {
-    margin-bottom: 3rem;
-  }
-
-  &:hover {
-    border: 1px solid;
-  }
-`;
+import { NavLink } from 'react-router-dom';
+import {
+  AiOutlineDashboard,
+  AiOutlineUnorderedList,
+  AiOutlineUser,
+} from 'react-icons/ai';
+import { BiCameraMovie } from 'react-icons/bi';
+import { BsPeople } from 'react-icons/bs';
+import { IoCreateOutline } from 'react-icons/io5';
+import { CgPoll } from 'react-icons/cg';
+import { cn } from '../lib';
 
 function renderIcon(title) {
   switch (title) {
     case 'dashboard':
-      return 'poll';
+      return <AiOutlineDashboard size={20} />;
     case 'movies':
-      return 'film';
+      return <BiCameraMovie size={20} />;
     case 'casts':
-      return 'users';
+      return <BsPeople size={20} />;
     case 'genres':
-      return 'list';
+      return <AiOutlineUnorderedList size={20} />;
     case 'users':
-      return 'users';
+      return <AiOutlineUser size={20} />;
     case 'account':
-      return 'user-edit';
+      return <IoCreateOutline size={20} />;
     default:
-      return 'dot-circle';
+      return <CgPoll size={20} />;
   }
 }
 
-const MenuItem = ({ title, selected, mobile }) => {
+const MenuItem = ({ title, url }) => {
   return (
-    <StyledItem selected={selected} mobile={mobile}>
-      <FontAwesomeIcon
-        icon={renderIcon(title)}
-        size="1x"
-        style={{ marginRight: '10px' }}
-      />
-      {title}
-    </StyledItem>
+    <NavLink
+      className={({ isActive }) =>
+        cn(
+          'flex items-center gap-4 py-4 px-8 text-xl  opacity-100 rounded-full border-gray-700',
+          isActive
+            ? 'border text-black font-bold'
+            : 'hover:border text-secondary font-semibold'
+        )
+      }
+      to={url}
+    >
+      {renderIcon(title)}
+      <p>{title}</p>
+    </NavLink>
   );
 };
 

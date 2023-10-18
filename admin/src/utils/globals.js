@@ -87,10 +87,4 @@ export default createGlobalStyle`
       font-weight: 600;
       margin-bottom: 1rem;
     }
-
-    option {
-      font-size: 1.7rem;
-      font-weight: bold;
-      padding:1rem;
-    }
 `;

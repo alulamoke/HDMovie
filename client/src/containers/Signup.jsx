@@ -75,7 +75,7 @@ const SignUp = () => {
   });
 
   const signupMutation = useMutation({
-    mutationKey: ['login'],
+    mutationKey: ['signup'],
     mutationFn: usersService.signup,
     onSuccess: (data) => {
       toast.success('Account created successfully, Pay your subscription now.');

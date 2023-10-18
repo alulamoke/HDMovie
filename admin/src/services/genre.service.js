@@ -1,16 +1,16 @@
-import { apiV1 } from '../api';
+import { appApi } from '../app/appApi';
 
 export default {
   createGenre: async (body) => {
-    const response = await apiV1().post(`/genre`, body);
-    return response;
+    const response = await appApi().post(`/genre`, body);
+    return response.data;
   },
   getGenres: async () => {
-    const response = await apiV1().get(`/genre`);
-    return response;
+    const response = await appApi().get(`/genre`);
+    return response.data;
   },
   deleteGenre: async (id) => {
-    const response = await apiV1().delete(`/genre/${id}`);
-    return response;
+    const response = await appApi().delete(`/genre/${id}`);
+    return response.data;
   },
 };

@@ -1,28 +1,16 @@
-import React, { useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 
-// Redux
-import { useSelector, useDispatch } from 'react-redux';
-import {
-  getMoviesForAdmin,
-  clearMovies,
-} from '../../redux/actions/movie.action';
+// hooks
+import { useMovies } from '../../hooks/useMovie';
 
 // Components
 import Loading from '../Loading';
 
 const BestMovieChart = () => {
-  const dispatch = useDispatch();
+  const { isLoading, data: movies } = useMovies();
 
-  useEffect(() => {
-    dispatch(getMoviesForAdmin(1, 'likes.desc'));
-    return () => clearMovies();
-  }, [dispatch]);
-
-  const movies = useSelector((state) => state.movie);
-
-  const labels = movies.data && movies.data.slice(0, 10).map((el) => el.title);
-  const data_number = movies.data && movies.data.map((el) => el.likes.length);
+  const labels = movies && movies.slice(0, 10).map((el) => el.title);
+  const data_number = movies && movies.map((el) => el.likes.length);
 
   const data = {
     labels: labels,
@@ -46,7 +34,7 @@ const BestMovieChart = () => {
     ],
   };
 
-  if (movies.leading) return <Loading />;
+  if (isLoading) return <Loading />;
   return <Bar data={data} />;
 };
 

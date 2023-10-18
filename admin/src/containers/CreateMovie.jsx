@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import dayjs from 'dayjs';
 
 // hooks
-import useMovieInfo from '../hooks/useMovieInfo';
+import { useMovieInfo } from '../hooks/useMovie';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -49,7 +49,7 @@ const FormWrapper = styled.form`
 
 const CreateMovie = () => {
   const location = useLocation();
-  const { loading, data } = useMovieInfo(location.state.movieId);
+  const { isLoading, data } = useMovieInfo(location.state.movieId);
 
   // movie states
   const [type, setType] = useState('');
@@ -151,7 +151,7 @@ const CreateMovie = () => {
         <title>{location.state.type} Movie</title>
       </Helmet>
       <Header title={`${location.state.type} Movie`} size="2" />
-      {location.state.type === 'Edit' && loading ? (
+      {location.state.type === 'Edit' && isLoading ? (
         <Loader />
       ) : (
         <FormWrapper noValidate onSubmit={(e) => e.preventDefault()}>

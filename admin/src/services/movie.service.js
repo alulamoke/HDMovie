@@ -1,36 +1,40 @@
-import { apiV1 } from '../api';
+import { appApi } from '../app/appApi';
 
 export default {
   createMovie: async (body) => {
-    const response = await apiV1().post(`/movie`, body);
-    return response;
+    const response = await appApi().post(`/movie`, body);
+    return response.data;
+  },
+  getMovieInfo: async (id) => {
+    const response = await appApi().get(`/movie/${id}/admin`);
+    return response.data;
   },
   updateMovieInfo: async (id, body) => {
-    const response = await apiV1().put(`/movie/${id}`, body);
-    return response;
+    const response = await appApi().put(`/movie/${id}`, body);
+    return response.data;
   },
   updateTrailer: async (id, body) => {
-    const response = await apiV1().put(`/movie/updateTrailer/${id}`, body);
-    return response;
+    const response = await appApi().put(`/movie/updateTrailer/${id}`, body);
+    return response.data;
   },
   updateMovieVideo: async (id, body) => {
-    const response = await apiV1().put(`/movie/updateVideo/${id}`, body);
-    return response;
+    const response = await appApi().put(`/movie/updateVideo/${id}`, body);
+    return response.data;
   },
   updateSeriesMovie: async (id, body) => {
-    const response = await apiV1().put(`/movie/updateSeriesMovie/${id}`, body);
-    return response;
+    const response = await appApi().put(`/movie/updateSeriesMovie/${id}`, body);
+    return response.data;
   },
   getMoviesForAdmin: async (params) => {
-    const response = await apiV1().get(`/movie/admin`, { params });
-    return response;
+    const response = await appApi().get(`/movie/admin`, { params });
+    return response.data;
   },
   getMoviesBySearch: async (params) => {
-    const response = await apiV1().get(`/movie/search`, { params });
-    return response;
+    const response = await appApi().get(`/movie/search`, { params });
+    return response.data;
   },
   deleteMovie: async (id) => {
-    const response = await apiV1().delete(`/movie/${id}`);
-    return response;
+    const response = await appApi().delete(`/movie/${id}`);
+    return response.data;
   },
 };

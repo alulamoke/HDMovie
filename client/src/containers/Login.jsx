@@ -77,7 +77,7 @@ const Login = () => {
       dispatch(setCredentails(data));
       localStore.authenticateUser(data.token);
       navigate('/discover/popular');
-      toast.success('Login success');
+      toast.success('Login successful.');
     },
     onError: (err) => {
       toast.error(err.message);

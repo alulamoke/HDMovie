@@ -4,8 +4,8 @@ export default {
    *
    * @param {string} token
    */
-  authenticateUser: (data) => {
-    localStorage.setItem('HDMovieAdminToken', data.token);
+  authenticateUser: (token) => {
+    localStorage.setItem('HDMovieAdminToken', token);
   },
 
   /**

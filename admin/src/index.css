@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* form */
+.form-group {
+  @apply flex flex-col;
+}
+
+.form-input {
+  @apply w-full rounded-md border bg-transparent p-4 text-2xl outline-none focus:outline-none dark:border-white/10;
+}
+
+.form-error {
+  @apply text-xl font-medium text-danger;
+}
+
+.form-label {
+  @apply mb-4 text-xl font-medium sm:text-2xl;
+}
+
+/* react birger menu */
+.bm-burger-button {
+  @apply hidden;
+}
+
+.bm-cross-button {
+  @apply mr-4 h-6 w-6;
+}
+
+.bm-cross {
+  @apply bg-primary;
+}
+
+.bm-menu-wrap {
+  @apply fixed left-0 top-0 h-full;
+}
+
+.bm-menu {
+  @apply overflow-y-auto bg-white;
+}
+
+.bm-item-list {
+  @apply p-[0.8rem] text-primary;
+}
+
+.bm-item {
+  @apply outline-none;
+}
+
+.bm-overlay {
+  @apply left-0 top-0 bg-black/70;
+}

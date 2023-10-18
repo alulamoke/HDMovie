@@ -1,8 +1,9 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const StyledButton = styled.button`
+  width: auto;
   display: flex;
   flex-direction: ${(props) => (props.left ? 'row' : 'row-reverse')};
   align-items: center;
@@ -14,7 +15,6 @@ const StyledButton = styled.button`
   line-height: 1;
   font-weight: 500;
   font-size: 1.3rem;
-  width: auto;
   flex-grow: 0;
   color: ${(props) => (props.solid ? 'var(--text-color)' : props.color)};
   border: ${(props) =>
@@ -33,33 +33,12 @@ const StyledButton = styled.button`
     background-color: ${(props) => (props.solid ? 'transparent' : props.color)};
     box-shadow: ${(props) =>
       props.solid ? 'none' : '0 1rem 5rem var(--shadow-color)'};
-    transition: all 600ms cubic-bezier(0.075, 0.82, 0.165, 1);
-  }
-
-  @media ${(props) => props.theme.mediaQueries.large} {
-    padding: 1.2rem 2rem;
-  }
-
-  @media ${(props) => props.theme.mediaQueries.small} {
-    padding: 1.3rem 1.6rem;
-  }
-
-  @media ${(props) => props.theme.mediaQueries.smaller} {
-    padding: 1rem 1.3rem;
-  }
-
-  &:active {
-    transform: translateY(2px);
-  }
-
-  &:disabled {
-    cursor: not-allowed;
   }
 `;
 
 const Button = ({
   title,
-  icon,
+  Icon,
   color = 'var(--color-primary-dark)',
   left,
   solid,
@@ -72,16 +51,19 @@ const Button = ({
       solid={solid ? 1 : 0}
       {...rest}
     >
-      {icon && (
-        <FontAwesomeIcon
-          icon={icon}
-          size="1x"
+      {Icon && (
+        <Icon
+          size={20}
           style={left ? { marginRight: '1rem' } : { marginLeft: '1rem' }}
         />
       )}
       {title}
     </StyledButton>
   );
+};
+
+Button.propTypes = {
+  title: PropTypes.string.isRequired,
 };
 
 export default Button;

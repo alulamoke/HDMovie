@@ -1,27 +1,15 @@
-import React from 'react';
-import styled from 'styled-components';
+import * as ROUTES from '../constant/routes';
 import { Link } from 'react-router-dom';
 import LogoSvg from '../svg/logo.svg';
 
-const LinkWrapper = styled(Link)`
-  width: 100%;
-  height: 18rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-decoration: none;
-  margin-bottom: 2rem;
-`;
-
-const LogoWrapper = styled.img`
-  max-width: 75%;
-`;
-
 const Logo = () => {
   return (
-    <LinkWrapper to="/dashboard">
-      <LogoWrapper src={LogoSvg} />
-    </LinkWrapper>
+    <Link
+      to={ROUTES.DASHBOARD}
+      className="w-full h-[18rem] flex justify-center"
+    >
+      <img src={LogoSvg} className="max-w-[60%] md:max-w-[75%]" />
+    </Link>
   );
 };
 

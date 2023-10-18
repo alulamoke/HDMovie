@@ -1,25 +1,18 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import { useState } from 'react';
+import { IoCreateOutline } from 'react-icons/io5';
 
-// Redux
-import { useDispatch } from 'react-redux';
-import { createGenre } from '../redux/actions/genre.action';
+// hooks
+import { useCreateGenre } from '../hooks/useGenre';
+import { useFormik } from 'formik';
+import { genreSchema } from '../schemas';
 
 // Components
 import Button from './Button';
 import Modal from './Modal';
 
-const FormWrapper = styled.form`
-  display: flex;
-  flex-direction: column;
-  max-width: 100%;
-  margin: auto;
-`;
-
 const AddGenre = () => {
-  const dispatch = useDispatch();
+  const createGenreMutation = useCreateGenre();
   const [modalOpen, setModalOpen] = useState(false);
-  const [name, setName] = useState('');
 
   const handleOpen = () => {
     setModalOpen(true);
@@ -27,43 +20,53 @@ const AddGenre = () => {
 
   const handleClose = () => {
     setModalOpen(false);
-    setName('');
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(createGenre({ name })).then(() => setName(''));
-  };
+  const formAction = useFormik({
+    initialValues: {
+      name: '',
+    },
+    validationSchema: genreSchema,
+    onSubmit: (values) => createGenreMutation.mutate(values),
+  });
 
   return (
     <>
       <Button
         title="Add Genre"
+        Icon={IoCreateOutline}
         left
-        icon="plus"
-        style={{ marginLeft: '1.5rem' }}
         onClick={handleOpen}
       />
-
       <Modal open={modalOpen} title="Add Genre" onClose={handleClose}>
-        <FormWrapper noValidate onSubmit={handleSubmit}>
-          <label htmlFor="name">* Name</label>
-          <input
-            id="name"
-            name="name"
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Name"
-          />
+        <form
+          noValidate
+          onSubmit={formAction.handleSubmit}
+          className="max-w-full flex gap-4 flex-col mx-auto"
+        >
+          <div className="form-group">
+            <label htmlFor="name">* Name</label>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              value={formAction.values.name}
+              onChange={formAction.handleChange}
+              onBlur={formAction.handleBlur}
+            />
+            {formAction.errors.name && formAction.touched.name && (
+              <p className="form-error">{formAction.errors.name}</p>
+            )}
+          </div>
           <Button
-            title="Create Cast"
+            title="Submit"
+            Icon={IoCreateOutline}
             left
-            icon="plus"
             solid
-            style={{ marginTop: '2rem' }}
+            className="mt-4"
+            disabled={createGenreMutation.isLoading}
           />
-        </FormWrapper>
+        </form>
       </Modal>
     </>
   );

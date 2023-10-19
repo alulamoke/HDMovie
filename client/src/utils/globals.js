@@ -72,6 +72,7 @@ export default createGlobalStyle`
       border: 1px solid var(--color-primary-light);
       border-radius: 3px;
       font-family: 'Montserrat', sans-serif !important;
+      font-size: 1.5rem;
     
       &:last-child {
         margin-bottom: 0;

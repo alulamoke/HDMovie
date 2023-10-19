@@ -43,7 +43,7 @@ const MenuItem = ({ title, url }) => {
       to={url}
     >
       {renderIcon(title)}
-      <p>{title}</p>
+      <p className="capitalize">{title}</p>
     </NavLink>
   );
 };

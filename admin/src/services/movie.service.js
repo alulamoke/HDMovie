@@ -9,19 +9,19 @@ export default {
     const response = await appApi().get(`/movie/${id}/admin`);
     return response.data;
   },
-  updateMovieInfo: async (id, body) => {
+  updateMovieInfo: async ({ id, body }) => {
     const response = await appApi().put(`/movie/${id}`, body);
     return response.data;
   },
-  updateTrailer: async (id, body) => {
+  updateTrailer: async ({ id, body }) => {
     const response = await appApi().put(`/movie/updateTrailer/${id}`, body);
     return response.data;
   },
-  updateMovieVideo: async (id, body) => {
+  updateMovieVideo: async ({ id, body }) => {
     const response = await appApi().put(`/movie/updateVideo/${id}`, body);
     return response.data;
   },
-  updateSeriesMovie: async (id, body) => {
+  updateSeriesMovie: async ({ id, body }) => {
     const response = await appApi().put(`/movie/updateSeriesMovie/${id}`, body);
     return response.data;
   },

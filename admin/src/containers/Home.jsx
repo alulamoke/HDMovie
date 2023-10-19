@@ -7,23 +7,11 @@ import Button from '../components/Button';
 import BackGroundImg from '../svg/bg2.jpg';
 
 const Wrapper = styled.div`
-    position: relative;
-    width:100%
-    height: 100vh;
-    background: url(${BackGroundImg}) no-repeat center center/cover;
-    overflow: hidden;
-
-  @media ${(props) => props.theme.mediaQueries.large} {
-    height: 60vh;
-  }
-
-  @media ${(props) => props.theme.mediaQueries.medium} {
-    height: 50vh;
-  }
-
-  @media ${(props) => props.theme.mediaQueries.small} {
-    height: 40vh;
-  }
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url(${BackGroundImg}) no-repeat center center/cover;
+  overflow: hidden;
 `;
 
 const DarkOverLay = styled.div`

@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { animateScroll as scroll } from 'react-scroll';
+import { IoCreateOutline } from 'react-icons/io5';
 import queryString from 'query-string';
 import styled from 'styled-components';
 
 // Redux
-import { useSelector, useDispatch } from 'react-redux';
-import { setSelectedMenu } from '../redux/actions/config.action';
-import { getMoviesForAdmin, clearMovies } from '../redux/actions/movie.action';
+import { useSelector } from 'react-redux';
+
+// hooks
+import { useMovies } from '../hooks/useMovie';
 
 // Components
 import Loader from '../components/Loader';
@@ -43,72 +45,49 @@ const Movies = () => {
     label: 'Popularity',
   });
 
-  const dispatch = useDispatch();
   const { base_url } = useSelector((state) => state.config);
-  const movies = useSelector((state) => state.movie);
-
   const location = useLocation();
-  const pathName = location.pathname.split('/')[1];
   const params = queryString.parse(location.search);
+  const { isLoading, data: movies } = useMovies(params.page, option.value);
 
   useEffect(() => {
     scroll.scrollToTop({
       smooth: true,
       delay: 500,
     });
-    dispatch(getMoviesForAdmin(params.page, option.value));
-    return () => dispatch(clearMovies());
-  }, [params.page, option.value, dispatch]);
-
-  useEffect(() => {
-    dispatch(setSelectedMenu(pathName));
-    return () => setSelectedMenu();
-  }, [pathName, dispatch]);
+  }, []);
 
   // If loading
-  if (movies.loading) {
+  if (isLoading) {
     return <Loader />;
   }
 
   return (
-    <Wrapper>
+    <>
       <Helmet>
         <meta charSet="utf-8" />
         <title>All Movies</title>
       </Helmet>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          marginBottom: '3rem',
-        }}
-      >
-        <Header title="movies" size="2" style={{ marginBottom: 0 }} />
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          <SearchBar />
-          <Link
-            to={{ pathname: '/create-movie', state: { type: 'Create' } }}
-            style={{ marginLeft: '1rem' }}
-          >
-            <Button title="Add Movie" icon="plus" left />
-          </Link>
+      <div className="flex flex-col gap-8 py-24 px-16">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <Header title="movies" size="2" style={{ marginBottom: 0 }} />
+          <div className="flex flex-wrap items-center gap-6">
+            <SearchBar />
+            <Link to="/create-movie?type=Create">
+              <Button title="Add Movie" Icon={IoCreateOutline} left solid />
+            </Link>
+          </div>
         </div>
+        {movies.data.length > 1 && (
+          <SortBy option={option} setOption={setOption} />
+        )}
+        {movies.data.length > 0 ? (
+          <MoviesList base_url={base_url} movies={movies} />
+        ) : (
+          <NotFound title="Sorry!" subtitle={`There were no results...`} />
+        )}
       </div>
-      {movies.data.length > 1 && (
-        <SortBy option={option} setOption={setOption} />
-      )}
-      {movies.data.length > 0 ? (
-        <MoviesList base_url={base_url} movies={movies} />
-      ) : (
-        <NotFound title="Sorry!" subtitle={`There were no results...`} />
-      )}
-    </Wrapper>
+    </>
   );
 };
 

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { slide as Menu } from 'react-burger-menu';
+import { AiOutlineMenu } from 'react-icons/ai';
 import { FaUserCircle } from 'react-icons/fa';
 
 // Redux
@@ -22,7 +23,7 @@ const MenuNavbar = () => {
 
   return (
     <>
-      <nav className="flex w-full border-b items-center md:hidden justify-between gap-4 bg-white shadow-md py-6 px-8 z-10">
+      <nav className="flex w-full border-b items-center lg:hidden justify-between gap-4 bg-white shadow-md py-6 px-8 z-10">
         <AiOutlineMenu
           className="w-14 h-14 shrink-0 cursor-pointer"
           onClick={() => setisOpened(true)}

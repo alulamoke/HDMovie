@@ -36,7 +36,7 @@ module.exports = {
   getUsers: async (_, res, next) => {
     try {
       const users = await User.find();
-      return res.send({ data: users });
+      return res.send(users);
     } catch (error) {
       next(error);
     }

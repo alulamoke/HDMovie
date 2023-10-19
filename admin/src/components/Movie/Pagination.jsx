@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { scroller } from 'react-scroll';
+import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
+import styled from 'styled-components';
 
 // Components
 import Button from '../Button';
@@ -25,6 +25,7 @@ const WrapperLink = styled(Link)`
 `;
 
 const Pagination = ({ page, total_pages }) => {
+  const location = useLocation();
   const scrollTo = () => {
     scroller.scrollTo('scroll-to-element', {
       duration: 1500,
@@ -43,10 +44,10 @@ const Pagination = ({ page, total_pages }) => {
     return (
       <Wrapper>
         <WrapperLink
-          to={`${process.env.PUBLIC_URL}?page=${page + 1}`}
+          to={`${location.pathname}?page=${page + 1}`}
           onClick={scrollTo}
         >
-          <Button solid title={`Page ${page + 1}`} icon="arrow-right" />
+          <Button title={`Page ${page + 1}`} Icon={AiOutlineArrowRight} solid />
         </WrapperLink>
       </Wrapper>
     );
@@ -57,16 +58,21 @@ const Pagination = ({ page, total_pages }) => {
     return (
       <Wrapper type="both">
         <WrapperLink
-          to={`${process.env.PUBLIC_URL}?page=${page - 1}`}
+          to={`${location.pathname}?page=${page - 1}`}
           onClick={scrollTo}
         >
-          <Button solid left title={`Page ${page - 1}`} icon="arrow-left" />
+          <Button
+            title={`Page ${page - 1}`}
+            Icon={AiOutlineArrowLeft}
+            left
+            solid
+          />
         </WrapperLink>
         <WrapperLink
-          to={`${process.env.PUBLIC_URL}?page=${page + 1}`}
+          to={`${location.pathname}?page=${page + 1}`}
           onClick={scrollTo}
         >
-          <Button solid title={`Page ${page + 1}`} icon="arrow-right" />
+          <Button solid title={`Page ${page + 1}`} Icon={AiOutlineArrowRight} />
         </WrapperLink>
       </Wrapper>
     );
@@ -77,10 +83,15 @@ const Pagination = ({ page, total_pages }) => {
     return (
       <Wrapper type="one">
         <WrapperLink
-          to={`${process.env.PUBLIC_URL}?page=${page - 1}`}
+          to={`${location.pathname}?page=${page - 1}`}
           onClick={scrollTo}
         >
-          <Button solid left title={`Page ${page - 1}`} icon="arrow-left" />
+          <Button
+            solid
+            left
+            title={`Page ${page - 1}`}
+            Icon={AiOutlineArrowLeft}
+          />
         </WrapperLink>
       </Wrapper>
     );

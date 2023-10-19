@@ -66,12 +66,13 @@ export default createGlobalStyle`
     }
     
     input, select, textarea {
-      flex: 1;
+      width: 100%;
       padding: 1rem;
       margin-bottom: 1rem;
       border: 1px solid var(--color-primary-light);
       border-radius: 3px;
       font-family: 'Montserrat', sans-serif !important;
+      font-size: 1.4rem;
     
       &:last-child {
         margin-bottom: 0;

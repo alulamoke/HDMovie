@@ -11,15 +11,15 @@ import { cn } from '../lib';
 
 function renderIcon(title) {
   switch (title) {
-    case 'Popular':
+    case 'popular':
       return <AiOutlineStar size={20} />;
-    case 'Top Rated':
+    case 'top rated':
       return <CgPoll size={20} />;
-    case 'Upcoming':
+    case 'upcoming':
       return <AiOutlineCalendar size={20} />;
-    case 'My Favorite':
+    case 'my favorite':
       return <AiOutlineHeart size={20} />;
-    case 'Watch Later':
+    case 'watch later':
       return <AiOutlineClockCircle size={20} />;
     default:
       return <BsRecordCircle size={15} />;
@@ -40,7 +40,7 @@ const MenuItem = ({ title, url }) => {
       to={url}
     >
       {renderIcon(title)}
-      <p>{title}</p>
+      <p className="capitalize">{title}</p>
     </NavLink>
   );
 };

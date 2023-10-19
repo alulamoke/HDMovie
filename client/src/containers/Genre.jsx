@@ -5,10 +5,15 @@ import { useLocation, useParams } from 'react-router-dom';
 import { animateScroll as scroll } from 'react-scroll';
 import styled from 'styled-components';
 
-// Redux
-import { useSelector } from 'react-redux';
+// hooks
+import { useGenres } from '../hooks/useGenre';
+
+// React query
 import { useQuery } from '@tanstack/react-query';
 import moviesService from '../services/movie.service';
+
+// Redux
+import { useSelector } from 'react-redux';
 
 // Components
 import Header from '../components/Header';
@@ -40,7 +45,8 @@ const Genre = () => {
     label: 'Popularity',
   });
 
-  const { base_url, genres } = useSelector((state) => state.config);
+  const { base_url } = useSelector((state) => state.config);
+  const { data: genres } = useGenres();
 
   const { name } = useParams();
   const location = useLocation();
@@ -55,10 +61,10 @@ const Genre = () => {
     scroll.scrollToTop({
       smooth: true,
     });
-  }, []);
+  }, [name]);
 
   const { isLoading, data: movies } = useQuery({
-    queryKey: ['genre', name],
+    queryKey: ['genre', name, option.value, params.page ?? 1],
     queryFn: () =>
       moviesService.getMoviesByParams({
         with_genres: genreId,

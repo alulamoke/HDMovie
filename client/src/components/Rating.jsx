@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import Stars from 'react-rating';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';

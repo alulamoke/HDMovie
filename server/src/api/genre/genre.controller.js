@@ -12,7 +12,7 @@ module.exports = {
   getGenres: async (_, res, next) => {
     try {
       const genres = await Genre.find().sort([['name', 'asc']]);
-      return res.send({ data: genres });
+      return res.send(genres);
     } catch (error) {
       next(error);
     }

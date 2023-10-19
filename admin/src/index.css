@@ -19,6 +19,45 @@
   @apply mb-4 text-xl font-medium sm:text-2xl;
 }
 
+/* custom react select */
+.my-react-select-container .my-react-select__control {
+  @apply border bg-white;
+}
+
+.my-react-select-container .my-react-select__control--is-focused {
+  @apply border-black/30 shadow-none hover:border-black/30;
+}
+
+.my-react-select-container .my-react-select__menu {
+  @apply rounded-none bg-white;
+}
+
+.my-react-select-container .my-react-select__option {
+  @apply bg-white text-primary hover:bg-black/10;
+}
+
+.my-react-select-container .my-react-select__option--is-selected {
+  @apply bg-black/10;
+}
+
+.my-react-select-container .my-react-select__indicator-separator {
+  @apply bg-black/10;
+}
+
+.my-react-select-container .my-react-select__multi-value__label {
+  @apply text-primary;
+}
+
+.my-react-select-container .my-react-select__multi-value__remove {
+  @apply text-primary hover:bg-gray-600 hover:text-white;
+}
+
+.my-react-select-container .my-react-select__input-container,
+.my-react-select-container .my-react-select__placeholder,
+.my-react-select-container .my-react-select__single-value {
+  @apply text-primary;
+}
+
 /* react birger menu */
 .bm-burger-button {
   @apply hidden;

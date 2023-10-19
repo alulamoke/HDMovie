@@ -29,21 +29,19 @@ const queryClient = new QueryClient({
 });
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <QueryClientProvider client={queryClient}>
-        <Provider store={store}>
-          <BrowserRouter>
-            <Toaster
-              position="top-center"
-              toastOptions={{ style: { fontSize: '1.6rem' } }}
-            />
-            <App />
-            <GlobalStyle />
-            <ReactQueryDevtools position="bottom-right" />
-          </BrowserRouter>
-        </Provider>
-      </QueryClientProvider>
-    </ThemeProvider>
-  </React.StrictMode>
+  <ThemeProvider theme={theme}>
+    <QueryClientProvider client={queryClient}>
+      <Provider store={store}>
+        <BrowserRouter>
+          <Toaster
+            position="top-center"
+            toastOptions={{ style: { fontSize: '1.6rem' } }}
+          />
+          <App />
+          <GlobalStyle />
+          <ReactQueryDevtools position="bottom-right" />
+        </BrowserRouter>
+      </Provider>
+    </QueryClientProvider>
+  </ThemeProvider>
 );

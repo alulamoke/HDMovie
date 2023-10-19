@@ -1,135 +1,80 @@
-import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { animateScroll as scroll } from 'react-scroll';
-import styled from 'styled-components';
+import { FiTrash } from 'react-icons/fi';
 
 // Redux
-import { useSelector, useDispatch } from 'react-redux';
-import { setSelectedMenu } from '../redux/actions/config.action';
-import { getUsers, clearUsers } from '../redux/actions/user.action';
+import { useSelector } from 'react-redux';
+
+// hooks
+import { useUsers } from '../hooks/useUser';
 
 // Components
 import Loader from '../components/Loader';
 import Header from '../components/Header';
-import NotFound from '../components/NotFound';
-import Button from '../components/Button';
-
-const Wrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  padding: 6rem 4rem;
-
-  @media ${(props) => props.theme.mediaQueries.larger} {
-    padding: 6rem 3rem;
-  }
-
-  @media ${(props) => props.theme.mediaQueries.large} {
-    padding: 4rem 2rem;
-  }
-`;
-
-const Table = styled.table`
-  padding: 2rem;
-`;
-
-const TableHead = styled.thead`
-  font-size: 1.4rem;
-  font-weight: 600;
-  background: var(--color-primary);
-  color: white;
-  td {
-    padding: 2rem;
-  }
-`;
-
-const TableBody = styled.tbody`
-  font-size: 1.2rem;
-  font-weight: normal;
-  td {
-    padding: 0.8rem;
-  }
-`;
+import Table from '../components/Table';
 
 // Discover Component
 const Users = () => {
-  const dispatch = useDispatch();
   const { base_url } = useSelector((state) => state.config);
-  const user = useSelector((state) => state.user);
-
-  const location = useLocation();
-  const pathName = location.pathname.split('/')[1];
+  const { isLoading, data: user } = useUsers();
 
   useEffect(() => {
     scroll.scrollToTop({
       smooth: true,
       delay: 500,
     });
-    dispatch(getUsers());
-    return () => dispatch(clearUsers());
-  }, [dispatch]);
+  }, []);
 
-  useEffect(() => {
-    dispatch(setSelectedMenu(pathName));
-    return () => setSelectedMenu();
-  }, [pathName, dispatch]);
+  /** @type import('@tanstack/react-table').ColumnDef<any> */
+  const columns = [
+    {
+      header: 'Profile Image',
+      accessorKey: 'imageurl',
+      cell: (info) => (
+        <img
+          src={`${base_url}${info.getValue()}`}
+          alt={info.getValue()}
+          className="w-24 h-24 rounded-md object-contain border"
+        />
+      ),
+    },
+    {
+      header: 'Full Name',
+      accessorKey: 'fullname',
+    },
+    {
+      header: 'Email Address',
+      accessorKey: 'email',
+    },
+    {
+      header: '</>',
+      accessorKey: '_id',
+      cell: () => <FiTrash size={20} className="text-danger cursor-pointer" />,
+    },
+  ];
 
   // If loading
-  if (user.loading) {
+  if (isLoading) {
     return <Loader />;
   }
 
-  //If there are no results
-  else if (user.data && user.data.length === 0) {
-    return <NotFound title="Sorry!" subtitle={`There were no results...`} />;
-  }
-
   return (
-    <Wrapper>
+    <>
       <Helmet>
         <meta charSet="utf-8" />
         <title>Users</title>
       </Helmet>
-      <Header title="users" size="2" />
-      <Table>
-        <TableHead>
-          <tr>
-            <td>Profile Image</td>
-            <td>Full Name</td>
-            <td>User Name</td>
-            <td>Email Address</td>
-            <td>Actions</td>
-          </tr>
-        </TableHead>
-        {user.data.map((el) => (
-          <TableBody key={el._id}>
-            <tr>
-              <td>
-                <img
-                  style={{
-                    width: '6rem',
-                    height: '6rem',
-                    objectFit: 'cover',
-                    borderRadius: '50%',
-                  }}
-                  src={`${base_url}${el.imageurl}`}
-                  alt={el.fullname}
-                />
-              </td>
-              <td>{el.fullname}</td>
-              <td>{el.username}</td>
-              <td>{el.email}</td>
-              <td>
-                <Button title="Suspend" color="#f78900" solid />
-              </td>
-            </tr>
-          </TableBody>
-        ))}
-      </Table>
-    </Wrapper>
+      <div className="flex flex-col gap-8 py-24 px-16">
+        <Header title="users" size="2" />
+        <Table
+          filterTitle="Search"
+          data={user}
+          columns={columns}
+          className="w-full"
+        />
+      </div>
+    </>
   );
 };
 

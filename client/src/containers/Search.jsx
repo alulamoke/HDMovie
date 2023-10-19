@@ -40,17 +40,17 @@ const Search = () => {
   const location = useLocation();
   const params = queryString.parse(location.search);
 
-  useEffect(() => {
-    scroll.scrollToTop({
-      smooth: true,
-    });
-  }, []);
-
   const { isLoading, data: movies } = useQuery({
     queryKey: ['search', query],
     queryFn: () =>
       moviesService.getMoviesBySearch({ q: query, page: params.page }),
   });
+
+  useEffect(() => {
+    scroll.scrollToTop({
+      smooth: true,
+    });
+  }, [query]);
 
   // If loading
   if (isLoading) {

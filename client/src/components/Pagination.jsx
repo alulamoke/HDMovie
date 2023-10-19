@@ -1,7 +1,6 @@
-import React from 'react';
-import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
 import { Link, useLocation } from 'react-router-dom';
 import { scroller } from 'react-scroll';
+import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
 import styled from 'styled-components';
 
 import Button from './Button';

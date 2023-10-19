@@ -1,8 +1,8 @@
-import React from 'react';
+import { cn } from '../lib';
 
-const Loading = () => {
+const Loading = ({ className }) => {
   return (
-    <div style={{ textAlign: 'center' }}>
+    <div className={cn(className)}>
       <svg
         version="1.1"
         id="loader-1"

@@ -25,7 +25,6 @@ const Wrapper = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   padding: 6rem 4rem;
 
   @media ${(props) => props.theme.mediaQueries.larger} {
@@ -143,10 +142,6 @@ const ImgLoading = styled.div`
   }
 `;
 
-const HeaderWrapper = styled.div`
-  margin-bottom: 2rem;
-`;
-
 const ButtonsWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -182,13 +177,6 @@ const Profile = () => {
   const { currentUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    scroll.scrollToTop({
-      smooth: true,
-      delay: 500,
-    });
-  }, []);
-
   const queryClient = useQueryClient();
 
   const { mutate: updateProfilePhoto } = useMutation({
@@ -216,6 +204,12 @@ const Profile = () => {
     formData.append('photo', e.target.files[0]);
     updateProfilePhoto(formData);
   };
+
+  useEffect(() => {
+    scroll.scrollToTop({
+      smooth: true,
+    });
+  }, []);
 
   return (
     <Wrapper>

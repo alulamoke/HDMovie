@@ -17,7 +17,6 @@ import { setConfiguration } from './app/configSlice';
 import * as ROUTES from './constant/routes';
 import AuthRoute from './layout/AuthRoute';
 import Layout from './layout/Layout';
-import PublicRoute from './layout/PublicRoute';
 
 // Components
 
@@ -82,11 +81,10 @@ const App = () => {
           />
           <Route path="/" element={<Layout />}>
             {/* PUBLIC ROUTES */}
-            <Route element={<PublicRoute />}>
-              <Route index element={<Home />} />
-              <Route path={ROUTES.LOGIN} element={<Login />} />
-              <Route path={ROUTES.SIGNUP} element={<Signup />} />
-            </Route>
+
+            <Route index element={<Home />} />
+            <Route path={ROUTES.LOGIN} element={<Login />} />
+            <Route path={ROUTES.SIGNUP} element={<Signup />} />
 
             {/* AUTH ROUTES */}
             <Route element={<AuthRoute />}>

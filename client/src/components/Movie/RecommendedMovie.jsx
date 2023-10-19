@@ -1,10 +1,8 @@
-import React from 'react';
-import { Element } from 'react-scroll';
 import { useQuery } from '@tanstack/react-query';
+import moviesService from '../../services/movie.service';
 
 // Redux
 import { useSelector } from 'react-redux';
-import moviesService from '../../services/movie.service';
 
 // Components
 import Header from '../Header';
@@ -22,6 +20,7 @@ const RecommendedMovie = ({ id, page }) => {
       toast.error(err.message);
     },
   });
+
   return (
     <>
       <Header title="Recommended" subtitle="movies" />
@@ -41,11 +40,7 @@ const RecommendedMovie = ({ id, page }) => {
         />
       );
     } else {
-      return (
-        <Element name="scroll-to-element">
-          <MoviesList base_url={base_url} movies={recommendedMovie} />;
-        </Element>
-      );
+      return <MoviesList base_url={base_url} movies={recommendedMovie} />;
     }
   }
 };

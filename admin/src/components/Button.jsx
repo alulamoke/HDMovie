@@ -34,6 +34,11 @@ const StyledButton = styled.button`
     box-shadow: ${(props) =>
       props.solid ? 'none' : '0 1rem 5rem var(--shadow-color)'};
   }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.75;
+  }
 `;
 
 const Button = ({

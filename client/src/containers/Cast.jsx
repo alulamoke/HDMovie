@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { AiOutlineArrowLeft, AiOutlineLink } from 'react-icons/ai';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { Element, animateScroll as scroll } from 'react-scroll';
+import { animateScroll as scroll } from 'react-scroll';
 import styled from 'styled-components';
 
 // Redux
@@ -220,9 +220,8 @@ const Cast = () => {
   useEffect(() => {
     scroll.scrollToTop({
       smooth: true,
-      delay: 500,
     });
-  }, []);
+  }, [id, params.page ?? 1]);
 
   const { isLoading, data: cast } = useQuery({
     queryKey: ['cast', id],
@@ -230,7 +229,7 @@ const Cast = () => {
   });
 
   const { isLoading: castMoviesLoading, data: castMovies } = useQuery({
-    queryKey: ['castMovies', cast?.fullname],
+    queryKey: ['castMovies', cast?.fullname, option.value, params.page ?? 1],
     queryFn: () =>
       moviesService.getMoviesByParams({
         with_cast: cast?._id,
@@ -363,9 +362,7 @@ function renderCastMovies(
         {movies.data.length > 1 && (
           <SortBy option={option} setOption={setOption} />
         )}
-        <Element name="scroll-to-element">
-          <MoviesList base_url={base_url} movies={movies} />;
-        </Element>
+        <MoviesList base_url={base_url} movies={movies} />
       </>
     );
   }

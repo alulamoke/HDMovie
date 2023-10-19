@@ -9,7 +9,7 @@ const Sidebar = () => {
   const { staticCategories } = useSelector((state) => state.config);
 
   return (
-    <div className="fixed top-0 left-0 gap-8 hidden md:flex flex-col p-4 xl:p-8 mt-16 border-r">
+    <div className="gap-8 hidden lg:flex flex-col p-4 xl:p-8 mt-16 border-r">
       <Logo />
       <header className="text-xl tracking-tighter uppercase font-bold">
         Discover

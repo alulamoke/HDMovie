@@ -21,7 +21,6 @@ const ModalContent = styled.div`
   overflow-x: hidden;
   overflow-y: scroll;
   background-color: white;
-  box-shadow: 0 0 25px 5px rgba(255, 255, 255, 0.5);
   border-radius: 3px;
   padding: 2rem;
 

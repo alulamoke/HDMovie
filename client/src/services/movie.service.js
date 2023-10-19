@@ -6,7 +6,7 @@ export default {
     const response = await appApi().get(`/movie`, { params });
     return response.data;
   },
-  getMoviesByDiscover: async (name, params) => {
+  getMoviesByDiscover: async ({ name, params }) => {
     const response = await appApi().get(`/movie/discover/${name}`, { params });
     return response.data;
   },

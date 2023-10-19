@@ -1,9 +1,7 @@
-import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { animateScroll as scroll } from 'react-scroll';
+import { toast } from 'react-hot-toast';
 import { CiLogin } from 'react-icons/ci';
-import styled from 'styled-components';
 
 import { useFormik } from 'formik';
 import { signupSchema } from '../schemas';
@@ -14,47 +12,9 @@ import adminService from '../services/admin.service';
 
 // Components
 import Header from '../components/Header';
-import Marginer from '../components/Marginer';
 import Button from '../components/Button';
 
 import * as ROUTES from '../constant/routes';
-
-const MainWrapper = styled.div`
-  height: 100%;
-  width: 100%;
-  margin-top: 10rem;
-`;
-
-const FormWrapper = styled.form`
-  display: flex;
-  flex-direction: column;
-  max-width: 40%;
-  margin: auto;
-
-  @media ${(props) => props.theme.mediaQueries.large} {
-    max-width: 50%;
-  }
-
-  @media ${(props) => props.theme.mediaQueries.medium} {
-    max-width: 70%;
-  }
-
-  @media ${(props) => props.theme.mediaQueries.small} {
-    max-width: 80%;
-  }
-
-  @media ${(props) => props.theme.mediaQueries.smaller} {
-    max-width: 90%;
-  }
-`;
-
-const Text = styled.p`
-  text-align: center;
-  color: var(--color-primary-light);
-  font-size: 1.3rem;
-  font-weight: 500;
-  margin-top: 2rem;
-`;
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -79,19 +39,16 @@ const Signup = () => {
     onSubmit: (values) => signupMutation.mutate(values),
   });
 
-  useEffect(() => {
-    scroll.scrollToTop({
-      smooth: true,
-      delay: 500,
-    });
-  }, []);
-
   return (
-    <MainWrapper>
+    <>
       <Helmet>
         <title>{`Signup - HDMovie`}</title>
       </Helmet>
-      <FormWrapper noValidate onSubmit={formAction.handleSubmit}>
+      <form
+        noValidate
+        onSubmit={formAction.handleSubmit}
+        className="max-w-screen-md mx-auto flex flex-col mt-24 gap-4"
+      >
         <Header title="Signup" size="2" />
         <div className="form-group">
           <label htmlFor="fullname">* Full Name</label>
@@ -135,24 +92,22 @@ const Signup = () => {
             <p className="form-error">{formAction.errors.password}</p>
           )}
         </div>
-        <Marginer margin="3rem" />
         <Button
           title="SignUp"
           Icon={CiLogin}
           left
           solid
-          style={{ boxShadow: 'none' }}
           disabled={signupMutation.isLoading}
+          className="my-8"
         />
-        <Marginer margin="3rem" />
-        <Text>
+        <p className="text-2xl text-secondary font-medium text-center">
           Already have an account?{' '}
           <Link to="/login" className="hover:underline">
             SignIn
           </Link>
-        </Text>
-      </FormWrapper>
-    </MainWrapper>
+        </p>
+      </form>
+    </>
   );
 };
 

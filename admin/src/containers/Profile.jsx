@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { animateScroll as scroll } from 'react-scroll';
+import { RiImageAddLine } from 'react-icons/ri';
+import { FiLogOut } from 'react-icons/fi';
 import styled from 'styled-components';
-import history from '../history';
 
 // Redux
-import { useSelector, useDispatch } from 'react-redux';
-import { setSelectedMenu } from '../redux/actions/config.action';
-import { logout } from '../redux/actions/admin.action';
+import { useSelector } from 'react-redux';
+
+// hooks
+import { useLogout } from '../hooks/useUser';
 
 // Components
-import Loader from '../components/Loader';
 import Loading from '../components/Loading';
 import Header from '../components/Header';
 import Button from '../components/Button';
@@ -167,26 +167,16 @@ const Profile = () => {
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
 
-  const dispatch = useDispatch();
+  const logoutMutation = useLogout();
   const { base_url } = useSelector((state) => state.config);
-  const { loading, currentUser } = useSelector((state) => state.admin);
-
-  const location = useLocation();
-  const pathName = location.pathname.split('/')[1];
+  const { currentUser } = useSelector((state) => state.auth);
 
   useEffect(() => {
     scroll.scrollToTop({
       smooth: true,
       delay: 500,
     });
-    dispatch(setSelectedMenu(pathName));
-    return () => setSelectedMenu();
-  }, [pathName, dispatch]);
-
-  // If loading
-  if (loading) {
-    return <Loader />;
-  }
+  }, []);
 
   return (
     <Wrapper>
@@ -215,35 +205,28 @@ const Profile = () => {
         </ImageWrapper>
         <PersonDetails>
           <HeaderWrapper>
-            <Header size="2" title={currentUser.fullname} />
+            <Header
+              size="2"
+              title={currentUser.fullname}
+              subtitle={currentUser.email}
+            />
           </HeaderWrapper>
           <ButtonsWrapper>
             <LeftButtons>
-              <Button title="Edit Image" left icon="edit" />
+              <Button title="Edit Image" left Icon={RiImageAddLine} />
               <Button
                 title="Logout"
+                Icon={FiLogOut}
                 left
-                icon="sign-out-alt"
-                onClick={() => dispatch(logout())}
+                solid
+                onClick={() => logoutMutation.mutate()}
               />
             </LeftButtons>
-            {renderBack()}
           </ButtonsWrapper>
         </PersonDetails>
       </PersonWrapper>
     </Wrapper>
   );
 };
-
-// Render back button
-function renderBack() {
-  if (history.action === 'PUSH') {
-    return (
-      <div onClick={history.goBack}>
-        <Button title="Back" solid left icon="arrow-left" />
-      </div>
-    );
-  }
-}
 
 export default Profile;

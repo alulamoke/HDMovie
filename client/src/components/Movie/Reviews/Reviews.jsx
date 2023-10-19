@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import React, { useState } from 'react';
 import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai';
+import { FiTrash } from 'react-icons/fi';
 import styled from 'styled-components';
 
 // Components
@@ -30,6 +31,7 @@ const ModalWrapper = styled.div`
   .modal-component {
     display: flex;
     flex-direction: column;
+    gap: 2rem;
     background: #fff;
     padding: 2rem;
     width: 60%;
@@ -89,22 +91,16 @@ const Reviews = ({ id, reviews }) => {
       {modalOpened && (
         <ModalWrapper>
           <div className="modal-component">
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                marginBottom: '3rem',
-              }}
-            >
-              <h1>Reviews</h1>
+            <div className="flex items-center justify-between">
+              <h1 className="text-3xl font-semibold">Reviews</h1>
               <AiOutlineClose
-                size={50}
+                size={20}
                 style={{ cursor: 'pointer' }}
                 onClick={handleClose}
               />
             </div>
             <AddReview id={id} base_url={base_url} currentUser={currentUser} />
+            <hr />
             <div style={{ padding: '1rem 2rem' }}>
               {reviews.length > 0 ? (
                 reviews.map((el) => (
@@ -145,8 +141,8 @@ const Reviews = ({ id, reviews }) => {
                         </strong>
                       </p>
                     </div>
-                    <AiOutlineClose
-                      size={40}
+                    <FiTrash
+                      size={20}
                       style={{ color: 'red', cursor: 'pointer' }}
                       onClick={() => mutate(el._id)}
                     />

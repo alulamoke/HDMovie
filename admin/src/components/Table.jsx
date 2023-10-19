@@ -12,7 +12,7 @@ import {
 import Button from './Button';
 
 // libs
-import { cn } from '../../lib';
+import { cn } from '../lib';
 
 const Orders = ({ filterTitle, data, columns, className }) => {
   const [filtering, setFiltering] = useState('');
@@ -46,7 +46,6 @@ const Orders = ({ filterTitle, data, columns, className }) => {
           placeholder={`${filterTitle}...`}
           value={filtering}
           onChange={(e) => setFiltering(e.target.value)}
-          className="form-input"
         />
       </div>
       <div className="overflow-x-auto rounded-md border p-8 shadow-sm">
@@ -74,12 +73,12 @@ const Orders = ({ filterTitle, data, columns, className }) => {
               table.getRowModel().rows.map((row, i) => (
                 <tr
                   key={row.id}
-                  className="odd:bg-[#f4f4f4] even:bg-transparent dark:odd:bg-white/10"
+                  className="odd:bg-[#f0f0f0] even:bg-transparent"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <td
                       key={cell.id}
-                      className="whitespace-nowrap p-5 text-[1.25rem] text-secondary lg:text-[1.5rem]"
+                      className="whitespace-nowrap p-5 text-[1.25rem] text-secondary font-medium lg:text-[1.5rem]"
                     >
                       {flexRender(
                         cell.column.columnDef.cell,
@@ -101,7 +100,7 @@ const Orders = ({ filterTitle, data, columns, className }) => {
       </div>
       <div className="flex flex-wrap items-center justify-end gap-8">
         <Button
-          title="Previews Page"
+          title="Previous Page"
           solid
           disabled={!table.getCanPreviousPage()}
           onClick={() => table.previousPage()}

@@ -1,11 +1,13 @@
-import queryString from 'query-string';
-import React from 'react';
-import { Helmet } from 'react-helmet';
-import { AiOutlineClose } from 'react-icons/ai';
+import { useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
+import { animateScroll as scroll } from 'react-scroll';
+import { AiOutlineClose } from 'react-icons/ai';
+import queryString from 'query-string';
 import styled from 'styled-components';
-import moviesService from '../services/movie.service';
+
 import { useSelector } from 'react-redux';
+import moviesService from '../services/movie.service';
 
 // Components
 import { useQuery } from '@tanstack/react-query';
@@ -42,9 +44,19 @@ const Discover = () => {
   const query = name.replace(/\s+/g, '_').toLowerCase();
 
   const { isLoading, data: movies } = useQuery({
-    queryKey: ['discover', query],
-    queryFn: () => moviesService.getMoviesByDiscover(query, params.page),
+    queryKey: ['discover', query, params.page ?? 1],
+    queryFn: () =>
+      moviesService.getMoviesByDiscover({
+        name: query,
+        params: { page: params.page },
+      }),
   });
+
+  useEffect(() => {
+    scroll.scrollToTop({
+      smooth: true,
+    });
+  }, [name]);
 
   // If loading
   if (isLoading) {
@@ -52,7 +64,7 @@ const Discover = () => {
   }
 
   //If there are no results
-  else if (movies.data.length === 0) {
+  else if (movies?.data.length === 0) {
     return (
       <Wrapper>
         <NotFound

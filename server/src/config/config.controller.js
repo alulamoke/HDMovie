@@ -16,11 +16,11 @@ router.get('/', (req, res, next) => {
       break;
     case 'user':
       staticCategories = [
-        'Popular',
-        'Top Rated',
-        'Upcoming',
-        'My Favorite',
-        'Watch Later',
+        'popular',
+        'top rated',
+        'upcoming',
+        'my favorite',
+        'watch later',
       ];
       break;
     default:

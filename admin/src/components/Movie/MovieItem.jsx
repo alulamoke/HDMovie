@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { AiOutlineVideoCameraAdd } from 'react-icons/ai';
+import { IoCreateOutline } from 'react-icons/io5';
+import { FiTrash } from 'react-icons/fi';
 import styled from 'styled-components';
 
 // hooks
 import useMovieFileUpload from '../../hooks/useMovieFileUpload';
-
-// Redux
-import { useDispatch } from 'react-redux';
-import { deleteMovie } from '../../redux/actions/movie.action';
+import { useDeleteMovie } from '../../hooks/useMovie';
 
 // Components
 import Loading from '../Loading';
@@ -162,7 +162,8 @@ const Tooltip = styled.span`
 
 // Function to render list of movies
 const MovieItem = ({ base_url, movie }) => {
-  const dispatch = useDispatch();
+  const deleteMovieMutation = useDeleteMovie();
+
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -273,16 +274,11 @@ const MovieItem = ({ base_url, movie }) => {
             margin: '4rem 0',
           }}
         >
-          <Link
-            to={{
-              pathname: '/create-movie',
-              state: { type: 'Edit', movieId: movie._id },
-            }}
-          >
+          <Link to={`/create-movie?type=Edit&movieId=${movie._id}`}>
             <Button
               title="Edit Movie Info"
               color="#1297ff"
-              icon="edit"
+              Icon={IoCreateOutline}
               left
               solid
             />
@@ -292,7 +288,7 @@ const MovieItem = ({ base_url, movie }) => {
               movie.trailer ? 'Edit Movie (Trailer)' : 'Add Movie (Trailer)'
             }
             color={movie.trailer && '#00b100'}
-            icon={movie.trailer ? 'check-circle' : 'edit'}
+            Icon={AiOutlineVideoCameraAdd}
             left
             solid={movie.trailer}
             onClick={handleEditTrailer}
@@ -301,7 +297,7 @@ const MovieItem = ({ base_url, movie }) => {
             <Button
               title={movie.video ? 'Edit Movie (Video)' : 'Add Movie (Video)'}
               color={movie.video && '#00b100'}
-              icon={movie.video ? 'check-circle' : 'edit'}
+              Icon={AiOutlineVideoCameraAdd}
               left
               solid={movie.video}
               onClick={handleEditVideo}
@@ -312,12 +308,12 @@ const MovieItem = ({ base_url, movie }) => {
           <Button
             title="Delete Movie"
             color="#e20c0c"
-            icon="trash"
+            Icon={FiTrash}
             left
             solid
             onClick={() =>
-              dispatch(deleteMovie(movie._id)).then(() => {
-                handleClose();
+              deleteMovieMutation.mutate(movie._id, {
+                onSuccess: () => handleClose(),
               })
             }
           />

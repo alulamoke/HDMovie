@@ -1,11 +1,7 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import {
-  AiOutlineClose,
-  AiFillPlayCircle,
-  AiOutlineArrowLeft,
-} from 'react-icons/ai';
+import { AiOutlineClose, AiFillPlayCircle } from 'react-icons/ai';
 import { BsRecordCircleFill } from 'react-icons/bs';
 import dayjs from 'dayjs';
 
@@ -23,6 +19,9 @@ import TvShows from './TvShows';
 import { useSelector } from 'react-redux';
 
 const MainWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
   width: 100%;
   max-width: 60%;
   padding: 4rem;
@@ -52,9 +51,9 @@ const MainWrapper = styled.div`
 
 const StyledLink = styled(Link)`
   text-decoration: none;
-  display: block;
   display: flex;
   align-items: center;
+  gap: 1rem;
   font-size: 1.1rem;
   font-weight: 700;
   line-height: 1;
@@ -76,33 +75,15 @@ const StyledLink = styled(Link)`
   }
 `;
 
-const LinksWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
-`;
-
-const HeaderWrapper = styled.div`
-  margin-bottom: 2rem;
-`;
-
 const Heading = styled.h3`
   color: var(--color-primary-dark);
   font-weight: 700;
   text-transform: uppercase;
-  margin-bottom: 1rem;
   font-size: 1.4rem;
 
   @media ${(props) => props.theme.mediaQueries.medium} {
     font-size: 1.2rem;
   }
-`;
-
-const DetailsWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 4rem;
 `;
 
 const RatingsWrapper = styled.div`
@@ -132,33 +113,6 @@ const Text = styled.p`
   color: var(--link-color);
   font-weight: 500;
   margin-bottom: 2rem;
-`;
-
-const ButtonsWrapper = styled.div`
-  display: flex;
-  align-items: center;
-
-  @media ${(props) => props.theme.mediaQueries.small} {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-`;
-
-const LeftButtons = styled.div`
-  margin-right: auto;
-  display: flex;
-
-  @media ${(props) => props.theme.mediaQueries.small} {
-    margin-bottom: 2rem;
-  }
-
-  & > *:not(:last-child) {
-    margin-right: 2rem;
-
-    @media ${(props) => props.theme.mediaQueries.large} {
-      margin-right: 1rem;
-    }
-  }
 `;
 
 const VideoModal = styled.div`
@@ -200,7 +154,6 @@ const VideoTitle = styled.div`
 `;
 
 const MovieInfo = ({ base_url, movie }) => {
-  const navigate = useNavigate();
   const [modalOpen, setmodalOpen] = useState({
     type: null,
   });
@@ -209,10 +162,13 @@ const MovieInfo = ({ base_url, movie }) => {
 
   return (
     <MainWrapper>
-      <HeaderWrapper>
-        <Header size="2" title={movie.title} subtitle={movie.tagline} />
-      </HeaderWrapper>
-      <DetailsWrapper>
+      <Header
+        size="2"
+        title={movie.title}
+        subtitle={movie.tagline}
+        style={{ marginBottom: '0' }}
+      />
+      <div className="flex flex-wrap items-center gap-4">
         <RatingsWrapper>
           <AddRating
             id={movie._id}
@@ -230,38 +186,43 @@ const MovieInfo = ({ base_url, movie }) => {
             dayjs(movie.release_date).format('MMM-DD-YYYY')
           )}
         </Info>
-      </DetailsWrapper>
-      <ButtonsWrapper style={{ marginBottom: '2rem' }}>
-        <LeftButtons>
-          <Reviews id={movie._id} reviews={movie.reviews} />
-          <LikeButton id={movie._id} isMovieLiked={movie.isMovieLiked} />
-          <WatchLaterButton id={movie._id} isWatchLater={movie.isWatchLater} />
-        </LeftButtons>
-      </ButtonsWrapper>
-      <Heading>The Genres</Heading>
-      <LinksWrapper>{renderGenres(movie.genres)}</LinksWrapper>
-      <Heading>The Synopsis</Heading>
-      <Text>
-        {movie.overview ? movie.overview : 'There is no synopsis available...'}
-      </Text>
-      <Heading>The Cast</Heading>
-      <Cast base_url={base_url} casts={movie.cast} />
-      <ButtonsWrapper style={{ marginBottom: '2rem' }}>
-        <LeftButtons>
-          {movie.trailer && renderVideoComp('trailer')}
-          {movie.type === 'Single' && movie.video && renderVideoComp('movie')}
-          {movie.type === 'Series' && movie.seasons.length > 0 && (
-            <Button
-              title="Watch now"
-              Icon={openSeasons ? AiOutlineClose : AiFillPlayCircle}
-              left
-              solid
-              onClick={() => setOpenSeasons((prev) => !prev)}
-            />
-          )}
-        </LeftButtons>
-        {renderBack()}
-      </ButtonsWrapper>
+      </div>
+      <div className="flex flex-wrap items-center gap-8">
+        <Reviews id={movie._id} reviews={movie.reviews} />
+        <LikeButton id={movie._id} isMovieLiked={movie.isMovieLiked} />
+        <WatchLaterButton id={movie._id} isWatchLater={movie.isWatchLater} />
+      </div>
+      <div className="space-y-2">
+        <Heading>The Genres</Heading>
+        <div className="flex flex-wrap items-center gap-4">
+          {renderGenres(movie.genres)}
+        </div>
+      </div>
+      <div className="space-y-2">
+        <Heading>The Synopsis</Heading>
+        <Text>
+          {movie.overview
+            ? movie.overview
+            : 'There is no synopsis available...'}
+        </Text>
+      </div>
+      <div className="space-y-2">
+        <Heading>The Cast</Heading>
+        <Cast base_url={base_url} casts={movie.cast} />
+      </div>
+      <div className="flex flex-wrap items-center gap-8">
+        {movie.trailer && renderVideoComp('trailer')}
+        {movie.type === 'Single' && movie.video && renderVideoComp('movie')}
+        {movie.type === 'Series' && movie.seasons.length > 0 && (
+          <Button
+            title="Watch now"
+            Icon={openSeasons ? AiOutlineClose : AiFillPlayCircle}
+            left
+            solid
+            onClick={() => setOpenSeasons((prev) => !prev)}
+          />
+        )}
+      </div>
       {movie.type === 'Series' && openSeasons && (
         <TvShows
           base_url={base_url}
@@ -286,7 +247,10 @@ const MovieInfo = ({ base_url, movie }) => {
                 {movie.title} {movie.tagline}{' '}
                 {type === 'trailer' && '- trailer'}
               </span>
-              <AiOutlineClose onClick={() => setmodalOpen({ type: null })} />
+              <AiOutlineClose
+                onClick={() => setmodalOpen({ type: null })}
+                className="cursor-pointer"
+              />
             </VideoTitle>
             <video
               src={`${base_url}/movie/${
@@ -300,15 +264,6 @@ const MovieInfo = ({ base_url, movie }) => {
           </VideoModal>
         )}
       </>
-    );
-  }
-
-  // Render back button
-  function renderBack() {
-    return (
-      <div onClick={() => navigate(-1)}>
-        <Button title="Back" solid left Icon={AiOutlineArrowLeft} />
-      </div>
     );
   }
 };
@@ -332,7 +287,7 @@ function renderInfo(languages, time = null, data) {
 function renderGenres(genres) {
   return genres.map((genre) => (
     <StyledLink key={genre._id} to={`/genre/${genre.name}`}>
-      <BsRecordCircleFill size={10} style={{ marginRight: '5px' }} />
+      <BsRecordCircleFill size={10} />
       {genre.name}
     </StyledLink>
   ));

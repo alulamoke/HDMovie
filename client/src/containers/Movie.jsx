@@ -1,10 +1,12 @@
-import { useQuery } from '@tanstack/react-query';
-import queryString from 'query-string';
-import React from 'react';
+import { useEffect } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { toast } from 'react-hot-toast';
-import { useLocation, useParams } from 'react-router-dom';
+import { animateScroll as scroll } from 'react-scroll';
+import queryString from 'query-string';
 import styled from 'styled-components';
+
+import { useQuery } from '@tanstack/react-query';
 import moviesService from '../services/movie.service';
 
 // Redux
@@ -78,6 +80,12 @@ const Movie = () => {
       toast.error(err.message);
     },
   });
+
+  useEffect(() => {
+    scroll.scrollToTop({
+      smooth: true,
+    });
+  }, [id]);
 
   // If loading
   if (isLoading) {

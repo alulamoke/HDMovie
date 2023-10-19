@@ -6,10 +6,10 @@ import styled from 'styled-components';
 // Redux
 import { useDispatch } from 'react-redux';
 import { setCredentails } from './app/authSlice';
-import { setConfiguration, setGenres } from './app/configSlice';
+import { setConfiguration } from './app/configSlice';
 
 // React query
-import { useQueries } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 import configService from './services/config.service';
 import usersService from './services/user.service';
@@ -49,31 +49,26 @@ ReactGA.pageview(window.location.pathname + window.location.search);
 const App = () => {
   const dispatch = useDispatch();
 
-  useQueries({
-    queries: [
-      {
-        queryKey: ['config'],
-        queryFn: configService.getConfig,
-        onSuccess: (data) => {
-          dispatch(setConfiguration(data));
-        },
-      },
-      {
-        queryKey: ['genres'],
-        queryFn: configService.getGenres,
-        onSuccess: (data) => {
-          dispatch(setGenres(data));
-        },
-      },
-      {
-        queryKey: ['authState'],
-        queryFn: usersService.getLoggedInUserInfo,
-        onSuccess: (data) => {
-          dispatch(setCredentails(data));
-        },
-      },
-    ],
+  const { isLoading, data } = useQuery({
+    queryKey: ['config'],
+    queryFn: configService.getConfig,
+    onSuccess: (data) => {
+      dispatch(setConfiguration(data));
+    },
   });
+
+  useQuery({
+    queryKey: ['authState'],
+    queryFn: usersService.getLoggedInUserInfo,
+    enabled: data ? true : false,
+    onSuccess: (data) => {
+      dispatch(setCredentails(data));
+    },
+  });
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <Suspense fallback={<Loader />}>

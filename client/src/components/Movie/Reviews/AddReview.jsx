@@ -43,14 +43,12 @@ const AddReview = ({ id, base_url, currentUser }) => {
   });
 
   return (
-    <form noValidate onSubmit={formAction.handleSubmit}>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          marginBottom: '1rem',
-        }}
-      >
+    <form
+      noValidate
+      onSubmit={formAction.handleSubmit}
+      className="flex flex-col gap-8"
+    >
+      <div className="flex items-center gap-8">
         <img
           src={`${base_url}${currentUser.imageurl}`}
           alt={currentUser.fullname}
@@ -59,7 +57,6 @@ const AddReview = ({ id, base_url, currentUser }) => {
             height: '5rem',
             borderRadius: '50%',
             objectFit: 'cover',
-            marginRight: '2rem',
           }}
         />
         <textarea
@@ -78,7 +75,7 @@ const AddReview = ({ id, base_url, currentUser }) => {
         Icon={MdOutlineAdd}
         left
         solid
-        style={{ float: 'right' }}
+        className="ml-auto"
         disabled={isLoading}
       />
     </form>

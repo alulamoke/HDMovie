@@ -23,7 +23,7 @@ module.exports = {
   getCasts: async (_, res, next) => {
     try {
       const casts = await Cast.find();
-      return res.send({ data: casts });
+      return res.send(casts);
     } catch (error) {
       next(error);
     }

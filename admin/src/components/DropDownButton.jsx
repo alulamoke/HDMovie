@@ -1,8 +1,15 @@
 import { useState } from 'react';
-import PropTypes from 'prop-types';
 import Select from 'react-select';
 
-const DropDownButton = ({ id, options, selectedOptions = [], onClick }) => {
+import { cn } from '../lib';
+
+const DropDownButton = ({
+  id,
+  options,
+  selectedOptions = [],
+  onClick,
+  className,
+}) => {
   const [option, setOption] = useState(selectedOptions);
 
   function handleChange(e) {
@@ -12,32 +19,20 @@ const DropDownButton = ({ id, options, selectedOptions = [], onClick }) => {
   }
 
   return (
-    <div style={{ marginBottom: '3rem', fontSize: '1.5rem' }}>
-      <Select
-        id={id}
-        theme={(theme) => ({
-          ...theme,
-          borderRadius: 5,
-          width: '50',
-          colors: {
-            ...theme.colors,
-            primary25: 'var(--color-primary-lighter)',
-            primary: 'var(--color-primary)',
-          },
-        })}
-        value={option}
-        options={options}
-        onChange={handleChange}
-        isSearchable={true}
-        isMulti={true}
-      />
-    </div>
+    <Select
+      id={id}
+      value={option}
+      options={options}
+      onChange={handleChange}
+      isSearchable={true}
+      isMulti={true}
+      className={cn(
+        'my-react-select-container text-left text-2xl font-medium',
+        className
+      )}
+      classNamePrefix="my-react-select"
+    />
   );
-};
-
-DropDownButton.prototype = {
-  selectedOptions: PropTypes.array,
-  onClick: PropTypes.func.isRequired,
 };
 
 export default DropDownButton;

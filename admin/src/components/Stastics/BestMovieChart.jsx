@@ -7,10 +7,13 @@ import { useMovies } from '../../hooks/useMovie';
 import Loading from '../Loading';
 
 const BestMovieChart = () => {
-  const { isLoading, data: movies } = useMovies();
+  const { isLoading, data: movies } = useMovies(1, 'likes.desc');
+  console.log(movies);
 
-  const labels = movies && movies.slice(0, 10).map((el) => el.title);
-  const data_number = movies && movies.map((el) => el.likes.length);
+  const labels =
+    movies?.data && movies?.data?.slice(0, 10).map((el) => el.title);
+  const data_number =
+    movies?.data && movies?.data?.map((el) => el.likes.length);
 
   const data = {
     labels: labels,
@@ -34,7 +37,7 @@ const BestMovieChart = () => {
     ],
   };
 
-  if (isLoading) return <Loading />;
+  if (!isLoading) return <Loading />;
   return <Bar data={data} />;
 };
 

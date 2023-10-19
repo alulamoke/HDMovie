@@ -27,7 +27,8 @@ const AddGenre = () => {
       name: '',
     },
     validationSchema: genreSchema,
-    onSubmit: (values) => createGenreMutation.mutate(values),
+    onSubmit: (values) =>
+      createGenreMutation.mutate(values, { onSuccess: () => handleClose() }),
   });
 
   return (
@@ -36,6 +37,7 @@ const AddGenre = () => {
         title="Add Genre"
         Icon={IoCreateOutline}
         left
+        solid
         onClick={handleOpen}
       />
       <Modal open={modalOpen} title="Add Genre" onClose={handleClose}>
@@ -53,6 +55,7 @@ const AddGenre = () => {
               value={formAction.values.name}
               onChange={formAction.handleChange}
               onBlur={formAction.handleBlur}
+              autoFocus
             />
             {formAction.errors.name && formAction.touched.name && (
               <p className="form-error">{formAction.errors.name}</p>

@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { IoCreateOutline } from 'react-icons/io5';
+import { RiImageAddLine } from 'react-icons/ri';
 
 // hooks
 import { useCreateCast } from '../hooks/useCast';
@@ -15,7 +16,7 @@ const AddCast = () => {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [image, setImage] = useState(null);
-  const fileRef = useRef(null);
+  const fileRef = useRef();
 
   const handleOpen = () => {
     setModalOpen(true);
@@ -35,14 +36,12 @@ const AddCast = () => {
     validationSchema: castSchema,
     onSubmit: (values) => {
       const formData = new FormData();
-
       formData.append('fullname', values.fullname);
       formData.append('imageurl', image);
       formData.append('birthday', values.birthday);
       if (values.deathday) formData.append('deathday', values.deathday);
       formData.append('biography', values.biography);
-
-      createCastMutation.mutate(formData);
+      createCastMutation.mutate(formData, { onSuccess: () => handleClose() });
     },
   });
 
@@ -52,6 +51,7 @@ const AddCast = () => {
         title="Add Cast"
         Icon={IoCreateOutline}
         left
+        solid
         onClick={handleOpen}
       />
       <Modal open={modalOpen} title="Add Cast" onClose={handleClose}>
@@ -74,23 +74,32 @@ const AddCast = () => {
               <p className="form-error">{formAction.errors.fullname}</p>
             )}
           </div>
-          <label htmlFor="imageInput">* Image</label>
-          <input
-            ref={fileRef}
-            name="image"
-            accept="image/*"
-            type="file"
-            hidden="hidden"
-            onChange={(e) => setImage(e.target.files[0])}
-          />
-          <Button
-            title={image ? 'Edit Image' : 'Add Image'}
-            color={image ? '#00b100' : 'var(--color-primary-dark)'}
-            Icon={IoCreateOutline}
-            left
-            solid={image}
-            onClick={fileRef.current.click()}
-          />
+          <div className="form-group">
+            <label htmlFor="imageInput">* Image</label>
+            <input
+              ref={fileRef}
+              name="image"
+              accept="image/*"
+              type="file"
+              hidden="hidden"
+              onChange={(e) => setImage(e.target.files[0])}
+            />
+            <Button
+              title={image ? 'Edit Image' : 'Add Image'}
+              color={image ? '#00b100' : 'var(--color-primary-dark)'}
+              Icon={RiImageAddLine}
+              left
+              solid={image}
+              onClick={() => fileRef.current?.click()}
+            />
+            {image ? (
+              <img
+                src={URL.createObjectURL(image)}
+                alt="movie poster"
+                className="w-full h-[30rem] object-contain border rounded-md mt-8"
+              />
+            ) : null}
+          </div>
           <div className="form-group">
             <label htmlFor="birthday">* Birthday</label>
             <input
@@ -106,7 +115,7 @@ const AddCast = () => {
             )}
           </div>
           <div className="form-group">
-            <label htmlFor="deathday">* Deathday</label>
+            <label htmlFor="deathday">* Deathday (Optional)</label>
             <input
               id="deathday"
               name="deathday"
@@ -125,6 +134,7 @@ const AddCast = () => {
               id="biography"
               name="biography"
               type="text"
+              rows={5}
               value={formAction.values.biography}
               onChange={formAction.handleChange}
               onBlur={formAction.handleBlur}

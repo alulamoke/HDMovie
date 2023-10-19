@@ -30,4 +30,5 @@ const auth = (role = 'user') => {
     }
   };
 };
+
 module.exports = auth;

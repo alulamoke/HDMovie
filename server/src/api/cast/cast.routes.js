@@ -11,6 +11,7 @@ router.post(
   upload('casts').single('imageurl'),
   castController.createCast
 );
+
 router.get('/', auth('admin'), castController.getCasts);
 router.get('/:id', auth(), castController.getCastInfo);
 router.put('/:id', auth('admin'), castController.updateCast);

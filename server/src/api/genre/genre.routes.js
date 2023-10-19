@@ -8,6 +8,7 @@ router
   .route('/')
   .post(auth('admin'), genreController.createGenre)
   .get(genreController.getGenres);
+
 router.delete('/:id', auth('admin'), genreController.deleteGenre);
 
 module.exports = router;

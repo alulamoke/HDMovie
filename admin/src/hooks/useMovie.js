@@ -10,7 +10,7 @@ export const useMovies = (page = 1, sort_by) => {
     sort_by,
   };
   return useQuery({
-    queryKey: ['movies', page],
+    queryKey: ['movies', page, sort_by],
     queryFn: () => movieService.getMoviesForAdmin(params),
     onError: (err) => toast.error(err.response.data.message),
   });

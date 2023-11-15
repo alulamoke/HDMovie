@@ -42,8 +42,8 @@ export default {
     const response = await appApi().patch(`/movie/clearWatchLaterMovies`);
     return response.data;
   },
-  rateMovie: async (id, body) => {
-    const response = await appApi().post(`/movie/${id}/rateMovie`, body);
+  rateMovie: async ({ id, value }) => {
+    const response = await appApi().post(`/movie/${id}/rateMovie`, { value });
     return response.data;
   },
   addReview: async (id, body) => {

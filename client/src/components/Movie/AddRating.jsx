@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { toast } from 'react-hot-toast';
 
 // Redux
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import movieService from '../../services/movie.service';
 
 const RatingsWrapper = styled.div`
@@ -76,11 +76,16 @@ const Tooltip = styled.span`
 `;
 
 const AddRating = ({ id, userId, rates }) => {
+  const queryClient = useQueryClient();
   const [currentValue, setCurrentValue] = useState(0);
 
   const { mutate } = useMutation({
     mutationKey: ['RateMovie', id],
-    mutationFn: () => movieService.rateMovie(id),
+    mutationFn: movieService.rateMovie,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['movie', id] });
+      toast.success('Movie Rated.');
+    },
     onError: (err) => {
       toast.error(err.message);
     },
@@ -97,7 +102,7 @@ const AddRating = ({ id, userId, rates }) => {
         initialRating={initialRating}
         fractions={4}
         onHover={(e) => setCurrentValue(e)}
-        onClick={(value) => mutate({ value })}
+        onClick={(value) => mutate({ id, value })}
       />
       <Tooltip>{currentValue}</Tooltip>
     </RatingsWrapper>

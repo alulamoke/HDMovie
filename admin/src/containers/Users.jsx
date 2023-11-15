@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { animateScroll as scroll } from 'react-scroll';
 import { FiTrash } from 'react-icons/fi';
+import dayjs from 'dayjs';
 
 // Redux
 import { useSelector } from 'react-redux';
@@ -46,6 +47,16 @@ const Users = () => {
     {
       header: 'Email Address',
       accessorKey: 'email',
+    },
+    {
+      header: 'Subscription',
+      accessorKey: 'plan',
+      cell: (info) => <p className="text-green-500">{info.getValue()}</p>,
+    },
+    {
+      header: 'Joined',
+      accessorKey: 'createdAt',
+      cell: (info) => <>{dayjs(info.getValue()).format('MMM DD YYYY')}</>,
     },
     {
       header: '</>',

@@ -400,6 +400,7 @@ module.exports = {
     }
   },
   rateMovie: async (req, res, next) => {
+    console.log(req.body);
     try {
       const movie = await Movie.findById(req.params.id);
       if (!movie) return res.status(404).send({ message: 'movie not found.' });

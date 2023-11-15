@@ -54,7 +54,7 @@ const Login = () => {
       <form
         noValidate
         onSubmit={formAction.handleSubmit}
-        className="max-w-screen-md mx-auto flex flex-col mt-24 gap-4"
+        className="max-w-screen-md mx-auto flex flex-col mt-24 gap-4 p-8"
       >
         <Header title="login" size="2" />
         <div className="form-group">

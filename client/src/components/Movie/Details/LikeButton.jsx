@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { AiOutlineHeart } from 'react-icons/ai';
 import Button from '../../Button';
 

@@ -47,7 +47,7 @@ const VideoTitle = styled.p`
   position: absolute;
   top: 0;
   left: 1%;
-  font-size: 3rem;
+  font-size: 2.25rem;
 `;
 
 const CloseIcon = styled(AiOutlineClose)`
@@ -96,7 +96,7 @@ const TvShows = ({ base_url, id, title, seasons }) => {
         {open === videoName && (
           <VideoModal>
             <VideoTitle>{`${movieName}.${seasonName}.Episode ${episode}`}</VideoTitle>
-            <CloseIcon size={50} onClick={() => setOpen(null)} />
+            <CloseIcon size={30} onClick={() => setOpen(null)} />
             <video
               controls
               autoPlay

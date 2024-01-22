@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react';
 import ReactGA from 'react-ga';
 import { Route, Routes } from 'react-router-dom';
+import { Offline } from 'react-detect-offline';
 import styled from 'styled-components';
 
 // Redux
@@ -104,6 +105,11 @@ const App = () => {
             </Route>
           </Route>
         </Routes>
+        <Offline>
+          <div className="fixed bottom-0 w-full bg-danger p-4 text-center text-2xl font-medium text-white">
+            You're offline right now. Check your connection.
+          </div>
+        </Offline>
       </MainWrapper>
     </Suspense>
   );

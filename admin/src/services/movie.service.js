@@ -5,6 +5,10 @@ export default {
     const response = await appApi().post(`/movie`, body);
     return response.data;
   },
+  getBestMovies: async (type) => {
+    const response = await appApi().get(`/movie/best/${type}`);
+    return response.data;
+  },
   getMovieInfo: async (id) => {
     const response = await appApi().get(`/movie/${id}/admin`);
     return response.data;

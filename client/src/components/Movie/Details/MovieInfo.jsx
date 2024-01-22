@@ -13,6 +13,7 @@ import Cast from '../Cast/Cast';
 import Reviews from '../Reviews/Reviews';
 import LikeButton from './LikeButton';
 import WatchLaterButton from './WatchLaterButton';
+import ShareButton from './ShareButton';
 import TvShows from './TvShows';
 
 // Redux
@@ -141,12 +142,11 @@ const VideoModal = styled.div`
   }
 `;
 
-const VideoTitle = styled.div`
+const VideoHeader = styled.div`
   position: absolute;
   top: 0;
   left: 1%;
   right: 1%;
-  font-size: 3rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -188,8 +188,8 @@ const MovieInfo = ({ base_url, movie }) => {
         </Info>
       </div>
       <div className="flex flex-wrap items-center gap-8">
-        <Reviews id={movie._id} reviews={movie.reviews} />
         <LikeButton id={movie._id} isMovieLiked={movie.isMovieLiked} />
+        <ShareButton title={movie.title} />
         <WatchLaterButton id={movie._id} isWatchLater={movie.isWatchLater} />
       </div>
       <div className="space-y-2">
@@ -206,6 +206,7 @@ const MovieInfo = ({ base_url, movie }) => {
             : 'There is no synopsis available...'}
         </Text>
       </div>
+      <Reviews id={movie._id} reviews={movie.reviews} />
       <div className="space-y-2">
         <Heading>The Cast</Heading>
         <Cast base_url={base_url} casts={movie.cast} />
@@ -242,16 +243,17 @@ const MovieInfo = ({ base_url, movie }) => {
         </div>
         {modalOpen.type === type && (
           <VideoModal>
-            <VideoTitle>
-              <span>
+            <VideoHeader>
+              <p className="text-[2.5rem]">
                 {movie.title} {movie.tagline}{' '}
                 {type === 'trailer' && '- trailer'}
-              </span>
+              </p>
               <AiOutlineClose
+                size={30}
                 onClick={() => setmodalOpen({ type: null })}
                 className="cursor-pointer"
               />
-            </VideoTitle>
+            </VideoHeader>
             <video
               src={`${base_url}/movie/${
                 movie._id

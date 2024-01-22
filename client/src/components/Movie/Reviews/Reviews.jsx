@@ -86,6 +86,7 @@ const Reviews = ({ id, reviews }) => {
         }
         Icon={AiOutlinePlus}
         left
+        solid
         onClick={handleOpen}
       />
       {modalOpened && (

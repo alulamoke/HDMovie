@@ -467,6 +467,17 @@ module.exports = {
       next(error);
     }
   },
+  getBestMovie: async (req, res, next) => {
+    try {
+      const movie = await Movie.find({ type: req.params.type })
+        .sort({ views_count: -1 })
+        .limit(10)
+        .select('_id title views_count');
+      return res.send(movie);
+    } catch (error) {
+      next(error);
+    }
+  },
 
   // playing movie or tv show
   playMovieContent: async (req, res, next) => {
@@ -484,6 +495,8 @@ module.exports = {
       } else {
         if (movie.video) {
           contentPath = path.join(__dirname + '../../../../' + movie.video);
+          movie.views_count++;
+          movie.save();
         } else {
           return res.status(404).send({ message: 'content not found.' });
         }
@@ -519,8 +532,9 @@ module.exports = {
     try {
       const movie = await Movie.findById(req.params.id);
       if (!movie) return res.status(404).send({ message: 'movie not found.' });
-      if (movie.seasons.length === 0)
+      if (movie.seasons.length === 0) {
         return res.status(404).send({ message: 'content not found.' });
+      }
       const contentPath = path.join(
         __dirname +
           '../../../../' +
@@ -528,6 +542,8 @@ module.exports = {
             parseInt(req.query.episode) - 1
           ]
       );
+      movie.views_count++;
+      movie.save();
       const stat = fs.statSync(contentPath);
       const fileSize = stat.size;
       const range = req.headers.range;

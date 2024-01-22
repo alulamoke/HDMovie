@@ -4,6 +4,22 @@ import { toast } from 'react-hot-toast';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import movieService from '../services/movie.service';
 
+export const useBestMovies = (type) => {
+  return useQuery({
+    queryKey: ['bestMovies'],
+    queryFn: () => movieService.getBestMovies(type),
+    onError: (err) => toast.error(err.response.data.message),
+  });
+};
+
+export const useBestSeries = (type) => {
+  return useQuery({
+    queryKey: ['bestSeries'],
+    queryFn: () => movieService.getBestMovies(type),
+    onError: (err) => toast.error(err.response.data.message),
+  });
+};
+
 export const useMovies = (page = 1, sort_by) => {
   const params = {
     page,
@@ -26,6 +42,7 @@ export const useMovieInfo = (id) => {
 
   return { isLoading, data, seasonNum: data && data.seasons.length };
 };
+
 export const useSearchMovies = (query, page) => {
   const params = {
     q: query,

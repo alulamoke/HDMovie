@@ -1,6 +1,8 @@
-const Loading = () => {
+import { cn } from '../lib';
+
+const Loading = ({ className }) => {
   return (
-    <div style={{ textAlign: 'center' }}>
+    <div className={cn(className)}>
       <svg
         version="1.1"
         id="loader-1"

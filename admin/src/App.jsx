@@ -1,6 +1,7 @@
 import { Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import ReactGA from 'react-ga';
+import { Offline } from 'react-detect-offline';
 import styled from 'styled-components';
 
 // React query
@@ -16,6 +17,7 @@ import { setConfiguration } from './app/configSlice';
 // Utils
 import * as ROUTES from './constant/routes';
 import AuthRoute from './layout/AuthRoute';
+import PublicRoute from './layout/PublicRoute';
 import Layout from './layout/Layout';
 
 // Components
@@ -81,10 +83,11 @@ const App = () => {
           />
           <Route path="/" element={<Layout />}>
             {/* PUBLIC ROUTES */}
-
-            <Route index element={<Home />} />
-            <Route path={ROUTES.LOGIN} element={<Login />} />
-            <Route path={ROUTES.SIGNUP} element={<Signup />} />
+            <Route element={<PublicRoute />}>
+              <Route index element={<Home />} />
+              <Route path={ROUTES.LOGIN} element={<Login />} />
+              <Route path={ROUTES.SIGNUP} element={<Signup />} />
+            </Route>
 
             {/* AUTH ROUTES */}
             <Route element={<AuthRoute />}>
@@ -99,6 +102,11 @@ const App = () => {
             </Route>
           </Route>
         </Routes>
+        <Offline>
+          <div className="fixed bottom-0 w-full bg-danger p-4 text-center text-2xl font-medium text-white">
+            You're offline right now. Check your connection.
+          </div>
+        </Offline>
       </MainWrapper>
     </Suspense>
   );

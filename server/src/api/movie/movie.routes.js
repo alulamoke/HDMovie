@@ -32,6 +32,9 @@ router.get('/admin', auth('admin'), movieController.getMoviesForAdmin);
 router.get('/:id/admin', auth('admin'), movieController.getMovieInfoForAdmin);
 router.delete('/:id', auth('admin'), movieController.deleteMovie);
 
+// getting best movie based on views
+router.get('/best/:type', auth('admin'), movieController.getBestMovie);
+
 //
 // USER
 //

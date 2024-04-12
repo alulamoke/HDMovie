@@ -39,7 +39,7 @@ const Casts = () => {
         <img
           src={`${base_url}${info.getValue()}`}
           alt={info.getValue()}
-          className="w-32 h-32 rounded-md object-contain border"
+          className="w-24 h-24 shrink-0 object-contain"
         />
       ),
     },
@@ -63,7 +63,7 @@ const Casts = () => {
       accessorKey: '_id',
       cell: (info) => (
         <FiTrash
-          size={20}
+          size={15}
           className="text-danger cursor-pointer"
           onClick={() => deleteCastMutation.mutate(info.getValue())}
         />

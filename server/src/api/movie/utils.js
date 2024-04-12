@@ -5,7 +5,7 @@ module.exports.getAll = async (req, data, sort, include) => {
   const page = req.query.page ? parseInt(req.query.page) : 1;
   const limit = req.query.limit || 15;
   const startIndex = (page - 1) * limit;
-  const select = ' _id title poster_path user_rate vote_average ';
+  const select = ' _id title tagline poster_path user_rate vote_average ';
 
   try {
     const total_pages =

@@ -34,7 +34,7 @@ const Orders = ({ filterTitle, data, columns, className }) => {
   });
 
   return (
-    <div className={cn('flex flex-col gap-y-16', className)}>
+    <div className={cn('flex flex-col gap-y-8', className)}>
       <div className="form-group w-full max-w-screen-sm">
         <label htmlFor="search" className="form-label">
           * FILTER
@@ -57,7 +57,7 @@ const Orders = ({ filterTitle, data, columns, className }) => {
                   <th
                     key={header.id}
                     colSpan={header.colSpan}
-                    className="whitespace-nowrap p-5 text-start text-2xl font-medium lg:text-[2rem]"
+                    className="whitespace-nowrap p-5 text-start text-2xl font-medium"
                   >
                     {flexRender(
                       header.column.columnDef.header,
@@ -78,7 +78,7 @@ const Orders = ({ filterTitle, data, columns, className }) => {
                   {row.getVisibleCells().map((cell) => (
                     <td
                       key={cell.id}
-                      className="whitespace-nowrap p-5 text-[1.25rem] text-secondary font-medium lg:text-[1.5rem]"
+                      className="whitespace-nowrap p-5 text-xl text-secondary font-medium"
                     >
                       {flexRender(
                         cell.column.columnDef.cell,

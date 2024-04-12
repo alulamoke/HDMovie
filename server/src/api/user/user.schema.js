@@ -43,9 +43,9 @@ module.exports.user_rule = {
       .required()
       .error(() => `username is not valid, it must be at least 3 characters.`),
     password: Joi.string()
-      .regex(new RegExp('^[a-zA-Z0-9]{6,32}$'))
+      .min(6)
       .required()
-      .error(() => `password is not valid, it must be at least 6 characters.`),
+      .error(() => `password must be at least 6 characters.`),
   }),
 
   updateUser: Joi.object().keys({

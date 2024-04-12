@@ -178,7 +178,9 @@ const MovieItem = ({ base_url, movie }) => {
         style={!loaded ? { display: 'none' } : {}}
       />
       <DetailsWrapper>
-        <Title>{movie.title}</Title>
+        <Title>
+          {movie.title}: {movie.tagline}
+        </Title>
         <RatingsWrapper>
           <Rating number={movie.vote_average} />
           <Tooltip>

@@ -24,6 +24,8 @@ const AddCast = () => {
 
   const handleClose = () => {
     setModalOpen(false);
+    formAction.resetForm();
+    setImage(null);
   };
 
   const formAction = useFormik({

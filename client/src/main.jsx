@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+// import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import { Provider } from 'react-redux';
 import { store } from './app/store';
@@ -39,7 +39,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           />
           <App />
           <GlobalStyle />
-          <ReactQueryDevtools position="bottom-right" />
+          {/* <ReactQueryDevtools position="bottom-right" /> */}
         </BrowserRouter>
       </Provider>
     </QueryClientProvider>

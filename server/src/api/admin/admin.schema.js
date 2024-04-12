@@ -1,5 +1,7 @@
 const Joi = require('joi');
 
+const passwordRules = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+
 module.exports.admin_rule = {
   signup: Joi.object().keys({
     fullname: Joi.string()
@@ -10,7 +12,7 @@ module.exports.admin_rule = {
       .required()
       .error(() => `email address is not valid.`),
     password: Joi.string()
-      .regex(new RegExp('^[a-zA-Z0-9]{6,32}$'))
+      .regex(new RegExp(passwordRules))
       .required()
       .error(() => `password is not valid, it must be at least 6 characters.`),
   }),
@@ -20,8 +22,8 @@ module.exports.admin_rule = {
       .required()
       .error(() => `email address is not valid.`),
     password: Joi.string()
-      .regex(new RegExp('^[a-zA-Z0-9]{6,32}$'))
+      .min(6)
       .required()
-      .error(() => `password is not valid, it must be at least 6 characters.`),
+      .error(() => `password must be at least 6 characters.`),
   }),
 };

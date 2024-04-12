@@ -36,7 +36,7 @@ const Users = () => {
         <img
           src={`${base_url}${info.getValue()}`}
           alt={info.getValue()}
-          className="w-24 h-24 rounded-md object-contain border"
+          className="w-24 h-24 object-contain shrink-0"
         />
       ),
     },
@@ -61,7 +61,7 @@ const Users = () => {
     {
       header: '</>',
       accessorKey: '_id',
-      cell: () => <FiTrash size={20} className="text-danger cursor-pointer" />,
+      cell: () => <FiTrash size={15} className="text-danger cursor-pointer" />,
     },
   ];
 

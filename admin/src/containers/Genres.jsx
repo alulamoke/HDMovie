@@ -35,7 +35,7 @@ const Genres = () => {
       accessorKey: '_id',
       cell: (info) => (
         <FiTrash
-          size={20}
+          size={15}
           className="text-danger cursor-pointer"
           onClick={() => deleteGenreMutation.mutate(info.getValue())}
         />

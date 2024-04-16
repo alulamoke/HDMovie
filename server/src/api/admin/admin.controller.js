@@ -16,19 +16,19 @@ module.exports = {
   },
   login: async (req, res, next) => {
     try {
-      const currentUser = await Admin.findByCredentials(
+      const user = await Admin.findByCredentials(
         req.body.email,
         req.body.password
       );
-      const token = await currentUser.generateAuthToken();
-      return res.send({ currentUser, token });
+      const token = await user.generateAuthToken();
+      return res.send({ user, token });
     } catch (error) {
       next(error);
     }
   },
   getLoggedInAdminInfo: async (req, res, next) => {
     try {
-      return res.send({ currentUser: req.user });
+      return res.send(req.user);
     } catch (error) {
       next(error);
     }

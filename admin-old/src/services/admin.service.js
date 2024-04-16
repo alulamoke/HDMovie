@@ -12,7 +12,7 @@ export default {
   },
 
   getLoggedInAdminInfo: async () => {
-    const response = await appApi().get(`/admin/me`);
+    const response = await appApi().get(`/admin/auth`);
     return response.data;
   },
 

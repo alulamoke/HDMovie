@@ -12,7 +12,7 @@ router.post(
   adminController.signup
 );
 router.post('/login', joimiddleware(admin_rule.login), adminController.login);
-router.get('/me', auth('admin'), adminController.getLoggedInAdminInfo);
+router.get('/auth', auth('admin'), adminController.getLoggedInAdminInfo);
 router.get('/users', auth('admin'), adminController.getUsers);
 router.post('/logout', auth('admin'), adminController.logout);
 router.post('/logoutAll', auth('admin'), adminController.logoutAll);
